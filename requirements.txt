@@ -1,0 +1,23 @@
+appdirs
+bcrypt
+cffi
+click
+Flask
+Flask-Bcrypt
+flask-mongoengine
+Flask-Script
+Flask-WTF
+itsdangerous
+Jinja2
+MarkupSafe
+flask-mongoengine
+mongoengine
+packaging
+# pkg-resources
+pycparser
+pymongo
+pyparsing
+six
+Werkzeug
+WTForms
+pymodm
