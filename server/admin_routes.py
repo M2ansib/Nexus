@@ -6,7 +6,7 @@ import logging
 log = logging.getLogger(__name__)
 
 admin_api = Blueprint('admin_api', __name__, url_prefix='/api')
-
+db_api = Blueprint('db_api', __name__, url_prefix='/db_api')
 
 class User(flask_login.UserMixin):
     def __init__(self, userid):
@@ -50,6 +50,11 @@ def getUser():
     if flask_login.current_user.is_authenticated:
         user = flask_login.current_user.get_id()
     return jsonify({'success': {'user': user}})
+    
+import time
+@admin_api.route('/time')
+def get_current_time():
+    return {'time': time.time()}
 
 
 @admin_api.route('/ping', methods=['GET'])

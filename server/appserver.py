@@ -1,11 +1,14 @@
-from flask import Flask, jsonify, request, Response, session, redirect, url_for
+from flask import Flask, jsonify, request, Response, session, redirect, url_for, make_response
 import flask_login
 import logging
 import os
 from datetime import timedelta
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 # import dbutils as db
-from admin_routes import admin_api, User
+from admin_routes import admin_api, User, db_api
 # from db_routes import db_api
 
 
@@ -20,7 +23,13 @@ SESSION_TIMEOUT = 60
 
 app = Flask(__name__, static_folder=SPA_DIR, static_url_path='/')
 app.register_blueprint(admin_api)
-# app.register_blueprint(db_api)
+app.register_blueprint(db_api)
+
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
@@ -35,6 +44,13 @@ app.permanent_session_lifetime = timedelta(minutes=SESSION_TIMEOUT)
 
 # Create the database if it doesn't exist
 # db.connect()
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return make_response(
+        jsonify(error=f"Rate limit exceeded: {e.description}")
+        , 429
+    )
 
 
 @login_manager.user_loader
@@ -73,11 +89,11 @@ def apply_headers(response):
         response.headers['Cache-Control'] = 'no-store'
     return response
 
-@app.route('/', methods=['GET'])
-def root():
-    return redirect(url_for('index'))
+# @app.route('/', methods=['GET'])
+# def root():
+#     return redirect(url_for('index'))
 
-@app.route('/api/', methods=['GET'])
+@app.route('/api', methods=['GET'])
 def index():
     return Response("OK", 200)
 

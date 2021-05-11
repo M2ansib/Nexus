@@ -21,3 +21,4 @@ six
 Werkzeug
 WTForms
 pymodm
+Flask-Limiter

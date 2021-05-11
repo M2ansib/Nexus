@@ -1,1 +1,97 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+/* *, *:after, *:before {
+            box-sizing: border-box;
+            font: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+        } */
+/* div#root, noscript {
+            background-color: #000;
+            color:#fff;
+            font-family: Quicksand, sans-serif;
+        } */
+.os-scrollbar-handle {
+    backdrop-filter: blur(16px) saturate(300%);
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .5);
+}
+
+.makeStyles-search-4 {
+    border-radius: 16px !important;
+}
+
+.MuiSvgIcon-root,
+#root>div>header>div>*[class*="MuiTypography"],
+::placeholder {
+    -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
+    filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 1));
+}
+
+.ascent-gradient-anim {
+    background: linear-gradient(303deg, #ff0000, #ff67df, #3af4ff, #ff0000, #b8ff00, #ff9100, #ff0000);
+    background-size: 1400% 1400%;
+
+    -webkit-animation: AscentGradientAnim 30s ease infinite;
+    -moz-animation: AscentGradientAnim 30s ease infinite;
+    -o-animation: AscentGradientAnim 30s ease infinite;
+    animation: AscentGradientAnim 30s ease infinite;
+}
+
+@-webkit-keyframes AscentGradientAnim {
+    0% {
+        background-position: 22% 0%
+    }
+
+    50% {
+        background-position: 79% 100%
+    }
+
+    100% {
+        background-position: 22% 0%
+    }
+}
+
+@-moz-keyframes AscentGradientAnim {
+    0% {
+        background-position: 22% 0%
+    }
+
+    50% {
+        background-position: 79% 100%
+    }
+
+    100% {
+        background-position: 22% 0%
+    }
+}
+
+@-o-keyframes AscentGradientAnim {
+    0% {
+        background-position: 22% 0%
+    }
+
+    50% {
+        background-position: 79% 100%
+    }
+
+    100% {
+        background-position: 22% 0%
+    }
+}
+
+@keyframes AscentGradientAnim {
+    0% {
+        background-position: 22% 0%
+    }
+
+    50% {
+        background-position: 79% 100%
+    }
+
+    100% {
+        background-position: 22% 0%
+    }
+}
