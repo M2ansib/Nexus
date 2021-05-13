@@ -15,8 +15,9 @@
   "devDependencies": {
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.6",
-    "parcel-bundler": "^1.12.4",
+    "parcel-bundler": "^1.12.5",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
+    "parcel-plugin-html-root-syntax": "0.0.3",
     "parcel-plugin-transcrypt": "^1.0.20"
   },
   "dependencies": {
@@ -24,15 +25,22 @@
     "@juggle/resize-observer": "^3.3.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "clsx": "^1.1.1",
     "deepcopy": "^2.1.0",
     "notistack": "^1.0.1",
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.2.2",
+    "pace": "0.0.4",
+    "pace-js": "^1.2.4",
     "react": "^17.0.2",
     "react-cool-dimensions": "^2.0.3",
     "react-dom": "^16.14.0",
     "react-ga": "^3.2.1",
     "react-modal": "^3.11.2",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-transition-group": "^4.4.1"
+  },
+  "externals": {
+    "parcel_exclusions/**/*": false
   }
 }

@@ -14,7 +14,7 @@
             color:#fff;
             font-family: Quicksand, sans-serif;
         } */
-.os-scrollbar-handle {
+.os-scrollbar-handle, .blur-behind {
     backdrop-filter: blur(16px) saturate(300%);
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .5);
 }
@@ -22,12 +22,14 @@
 .makeStyles-search-4 {
     border-radius: 16px !important;
 }
-
+.drop-shadow,
 .MuiSvgIcon-root,
 #root>div>header>div>*[class*="MuiTypography"],
-::placeholder {
-    -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
-    filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 1));
+::placeholder,
+*[class*="MuiInputBase"],
+*[class*="MuiBadge"] {
+    -webkit-filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, .85));
+    filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, .85));
 }
 
 .ascent-gradient-anim {
@@ -94,4 +96,24 @@
     100% {
         background-position: 22% 0%
     }
+}
+
+.fade-enter {
+    opacity: 0;
+    z-index: 1;
+}
+  
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 250ms ease-in;
+}
+
+#gradient-canvas {
+    position:fixed !important;
+    width:100%;
+    height:100%;
+    --gradient-color-1: #ef008f; 
+    --gradient-color-2: #6ec3f4; 
+    --gradient-color-3: #7038ff;  
+    --gradient-color-4: #ffba27;
 }

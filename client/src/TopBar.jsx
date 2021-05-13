@@ -14,11 +14,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Box from '@material-ui/core/Box';
-import Card from './Card';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { spacing } from '@material-ui/system';
 
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+
+import { spacing } from '@material-ui/system';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -84,15 +83,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
 
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch('/api/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
-    });
-  }, []);
+  const [viewName, setViewName] = useState("");
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -116,10 +109,15 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  //   OverlayScrollbars(document.getElementsByClassName("MuiMenu-paper")[0], {overflowBehavior : {
+  //     x : "hidden",
+  //     y : "scroll"
+  // },});
   };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
+    // <OverlayScrollbarsComponent options={{nativeScrollbarsOverlaid: {initialize: true}, scrollbars: { autoHide: "move"}}}>
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -132,6 +130,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
+    // </OverlayScrollbarsComponent>
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -144,6 +143,7 @@ export default function PrimarySearchAppBar() {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      style={{"overflowX":"hidden",}}
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
@@ -177,7 +177,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar className="ascent-gradient-anim" position="sticky" style={{ margin: 0 }}>
+      <AppBar className="ascent-gradient-anim" style={{ margin: 0, top:0 }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -188,7 +188,7 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Ascent LEAP
+            Ascent LEAP {viewName}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -241,10 +241,6 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-        <Box mx="2rem" py="2rem">
-          <p>{currentTime}</p>
-          <Card/>
-        </Box>
     </div>
   );
 }

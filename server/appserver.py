@@ -11,6 +11,12 @@ from flask_limiter.util import get_remote_address
 from admin_routes import admin_api, User, db_api
 # from db_routes import db_api
 
+from flask_session import Session
+from flask_mail import Mail
+from flask_cors import CORS, cross_origin
+
+from Schema import *
+
 
 fmt = "[%(asctime)s]|%(levelname)s|[%(module)s]:%(funcName)s()|%(message)s"
 logging.basicConfig(format=fmt)
@@ -24,6 +30,14 @@ SESSION_TIMEOUT = 60
 app = Flask(__name__, static_folder=SPA_DIR, static_url_path='/')
 app.register_blueprint(admin_api)
 app.register_blueprint(db_api)
+
+mail = Mail()
+mail.init_app(app)
+
+SESSION_TYPE = 'filesystem'
+app.config.from_object(__name__)
+Session(app)
+CORS(app)
 
 limiter = Limiter(
     app,

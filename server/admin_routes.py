@@ -2,7 +2,6 @@ from flask import jsonify, request, Response, session, Blueprint
 from werkzeug.security import check_password_hash, generate_password_hash
 import flask_login
 import logging
-
 log = logging.getLogger(__name__)
 
 admin_api = Blueprint('admin_api', __name__, url_prefix='/api')
@@ -11,7 +10,8 @@ db_api = Blueprint('db_api', __name__, url_prefix='/db_api')
 class User(flask_login.UserMixin):
     def __init__(self, userid):
         self.id = userid
-
+        
+from appserver import limiter
 
 @admin_api.route('/login', methods=['POST'])
 def login():
@@ -27,7 +27,7 @@ def login():
     else:
         log.warning(f"Failed login attempt for user '{username}'")
         flask_login.logout_user()
-        return Response("UNAUTHORIZED", 401)
+        return Response(jsonify({"UNAUTHORIZED": 401}), 401)
 
 
 def validateLogin(user, pwd):
@@ -53,6 +53,7 @@ def getUser():
     
 import time
 @admin_api.route('/time')
+@limiter.exempt
 def get_current_time():
     return {'time': time.time()}
 
