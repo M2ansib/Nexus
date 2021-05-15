@@ -27,6 +27,7 @@
     "@material-ui/icons": "^4.9.1",
     "clsx": "^1.1.1",
     "deepcopy": "^2.1.0",
+    "jquery": "^3.6.0",
     "notistack": "^1.0.1",
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.2.2",
