@@ -72,7 +72,7 @@ export default function LandingPageComponent() {
             </canvas>
             <Box display="flex" justifyContent="center" alignItems="center" position="fixed" width="100vw" height="100vh">
                 <Paper elevation={3} className="blur-behind" style={{"borderRadius":"8px", "backgroundColor":"rgba(55,55,55,0.75)", padding:"1em"}}>
-                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", paddingRight:".5em"}}>Welcome to Ascent LEAP!</h1>
+                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", paddingRight:".5em"}}>Welcome to Ascademy!</h1>
                     <form className={classes.root} noValidate autoComplete="off">
                     <TextField id="outlined-basic" label="Username" variant="outlined" color="secondary" />
                     <br/>
@@ -101,8 +101,6 @@ export default function LandingPageComponent() {
                         <br/>
                         <ButtonGroup display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">
                             <Button>Sign In</Button>
-                            <Button>Register</Button>
-                            <Button>Three</Button>
                         </ButtonGroup>
                     </form>
                 </Paper>

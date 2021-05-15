@@ -17,7 +17,7 @@
     "http-proxy-middleware": "^1.0.6",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "parcel-plugin-html-root-syntax": "0.0.3",
+    "parcel-plugin-html-root-syntax": "^0.0.3",
     "parcel-plugin-transcrypt": "^1.0.20"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "@material-ui/icons": "^4.9.1",
     "clsx": "^1.1.1",
     "deepcopy": "^2.1.0",
+    "material-ui-popup-state": "^1.8.3",
     "notistack": "^1.0.1",
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.2.2",

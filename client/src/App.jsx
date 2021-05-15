@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
@@ -11,18 +11,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 
 import {
-  TransitionGroup,
-  CSSTransition
+    TransitionGroup,
+    CSSTransition
 } from "react-transition-group";
 
 import {
-  BrowserRouter,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-  useLocation,
-  useParams
+    BrowserRouter,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+    useLocation,
+    useParams
 } from "react-router-dom";
 
 import useDimensions from "react-cool-dimensions";
@@ -31,76 +31,76 @@ import OverlayScrollbars from 'overlayscrollbars';
 import 'pace-js'
 import 'pace-js/themes/blue/pace-theme-minimal.css'
 import Login from './views/Login';
-import Card from './Card';
+import Dashboard from './Dashboard';
+import Profile from './Profile'
+import { Toolbar } from '@material-ui/core';
+
 
 OverlayScrollbars(document.body, {
-  nativeScrollbarsOverlaid: {
-      initialize: true
-  },
-  scrollbars: {
-    autoHide: "move",
-  }
+    nativeScrollbarsOverlaid: {
+        initialize: true
+    },
+    scrollbars: {
+        autoHide: "move",
+    }
 });
 
 const theme = createMuiTheme({
-  palette: {
-    type: "dark",
-    primary: {main: '#2196f3',},
-    secondary: {main: '#2196f3',},
-  },
-  typography: {
-    fontFamily: [
-      'Quicksand',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-  },
-  
+    palette: {
+        type: "light",
+        primary: { main: '#2196f3', },
+        secondary: { main: '#2196f3', contrastText: 'white', },
+    },
+    typography: {
+        fontFamily: [
+            'Quicksand',
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+    },
+
 });
 
 function Base() {
-  const { observe, width, height } = useDimensions({
-    useBorderBoxSize: true, // Tell the hook to measure based on the border-box size, default is false
-    polyfill: ResizeObserver, // Use polyfill to make this feature works on more browsers
-  });
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch('/api/time').then(res => res.json()).then(data => {
-        setCurrentTime(data.time);
+    const { observe, width, height } = useDimensions({
+        useBorderBoxSize: true, // Tell the hook to measure based on the border-box size, default is false
+        polyfill: ResizeObserver, // Use polyfill to make this feature works on more browsers
     });
-  }, []);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            {/* <TopBar/>
+
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/">
+                        {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
-            <Login/>
-          </Route>
-          <Route exact path="/dash">
-            <TopBar/>
-            <Box mx="2rem" py="2rem">
-                <p>{currentTime}</p>
-                <Card/>
-            </Box>
-          </Route>
-          {/* <Route exact path="/login" component={Login} /> */}
-        </Switch>
-      </BrowserRouter>
-    </ThemeProvider>
-  );
+                        <Login />
+                    </Route>
+                    <Route exact path="/dash">
+                        <TopBar />
+                        <Toolbar />
+                        <Dashboard />
+                    </Route>
+                    <Route exact path="/profile">
+                        <TopBar />
+                        <Toolbar />
+                        <Profile />
+                    </Route>
+                    {/* <Route exact path="/login" component={Login} /> */}
+                </Switch>
+            </BrowserRouter>
+        </ThemeProvider>
+    );
 }
 
 ReactDOM.render(<Base />, document.getElementById('root'));
