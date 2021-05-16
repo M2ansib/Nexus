@@ -41,8 +41,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function RecipeReviewCard(props) {
+export default function PairingCard(props) {
     const classes = useStyles();
+    const name=props.name
+    const initials=props.initials
+    const school=props.school
+    const subjects=props.subjects
+    const remarks=props.remarks
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -54,20 +59,20 @@ export default function RecipeReviewCard(props) {
             <CardHeader
                 avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
-                        XT
+                        {initials}
           </Avatar>
                 }
-                title="Mentee Name"
+                title={name}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    School:
+                    School: {school}
         </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Subjects Offered:
+                    Subjects Offered: {subjects}
         </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Remarks:
+                    Remarks: {remarks}
         </Typography>
             </CardContent>
             <CardActions disableSpacing>

@@ -113,4 +113,6 @@ def index():
 
 
 if __name__ == "__main__":
+    import pprint; pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(dict(app.config))
     app.run(debug=True, port=8000)

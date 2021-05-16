@@ -216,3 +216,5 @@ static/dist
 @References/
 @Imports/
 .history/
+flask_session/
+*.temp.txt

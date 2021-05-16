@@ -41,10 +41,10 @@ function PairingsList() {
                 <div className={classes.toolbar} />
                 <Toolbar/>
                 <Box mx="2rem" py="2rem">
-                    <Card />
+                    <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks."/>
                 </Box>
                 <Box mx="2rem" py="2rem">
-                    <Card />
+                    <Card name="Chien Hao" initials="CH"school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends"/>
                 </Box>
             </Drawer>
         </React.Fragment>
@@ -63,7 +63,9 @@ export default function DashboardCards() {
                 </Grid>
                 <Grid container item xs={9} spacing={0} justify="center" alignItems="flex-start">
                     <Box mx="2rem" py="2rem">
-                        <h1 style={{ textAlign: "center" }}>Howdy (name), welcome to Ascademy!</h1>
+                        <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
+                        <br/>
+                        <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
                         <iframe src="https://calendar.google.com/calendar/embed?src=ria.mundhra1234%40gmail.com&ctz=Asia%2FSingapore" style={{ border: 0, width: 800, height: 600, frameBorder: 0 }}></iframe>
                     </Box>
                 </Grid>

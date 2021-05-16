@@ -5,7 +5,13 @@ import Paper from '@material-ui/core/Paper';
 // import { makeStyles } from '@material-ui/core/styles';
 // import TextField from '@material-ui/core/TextField';
 
+import "./Login.css";
 import clsx from 'clsx';
+import Grid from '@material-ui/core/Grid';
+import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
+
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
@@ -26,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
         margin: theme.spacing(1),
-        width: '50ch',
+        width: '35ch',
       },
     },
   }));
@@ -71,12 +77,12 @@ export default function LandingPageComponent() {
             --> */}
             </canvas>
             <Box display="flex" justifyContent="center" alignItems="center" position="fixed" width="100vw" height="100vh">
-                <Paper elevation={3} className="blur-behind" style={{"borderRadius":"8px", "backgroundColor":"rgba(55,55,55,0.75)", padding:"1em"}}>
-                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", paddingRight:".5em"}}>Welcome to Ascademy!</h1>
+                <Paper elevation={3} className="blur-behind" style={{"borderRadius":"8px", "backgroundColor": "rgba(200,200,200,0.75)", padding:"1em"}}>
+                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", paddingRight:".5em", overflowX:'hidden'}}>Welcome to Ascademy!</h1>
                     <form className={classes.root} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" label="Username" variant="outlined" color="secondary" />
+                    <TextField id="outlined-basic" required label="ID" variant="outlined" width="100%" color="secondary" />
                     <br/>
-                    <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                    <FormControl required className={clsx(classes.margin, classes.textField)} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
@@ -95,13 +101,24 @@ export default function LandingPageComponent() {
                                 </IconButton>
                             </InputAdornment>
                             }
-                            labelWidth={70}
+                            labelWidth={80}
                         />
                         </FormControl>
                         <br/>
-                        <ButtonGroup display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">
-                            <Button>Sign In</Button>
-                        </ButtonGroup>
+                        <Box display="flex" justifyContent="center" alignItems="center">
+                            <ButtonGroup size="large" aria-label="large outlined primary button group" style={{"overflowX":"hidden"}}>
+                                <Button>
+                                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                                    <Grid item style={{display:"flex"}}>
+                                        <LockOpenRoundedIcon />
+                                    </Grid>
+                                    <Grid item>
+                                        Sign In
+                                    </Grid>
+                                </Grid>
+                                </Button>
+                            </ButtonGroup>
+                        </Box>
                     </form>
                 </Paper>
             </Box>
