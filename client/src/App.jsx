@@ -32,6 +32,7 @@ import OverlayScrollbars from 'overlayscrollbars';
 import 'pace-js'
 import 'pace-js/themes/blue/pace-theme-minimal.css'
 import Login from './views/Login';
+import Register from './views/Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile'
 import { Toolbar } from '@material-ui/core';
@@ -86,6 +87,9 @@ function Base() {
                         {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
                         <Login />
+                    </Route>
+                    <Route exact path="/register">
+                        <Register />
                     </Route>
                     <Route exact path="/dash">
                         <TopBar />
