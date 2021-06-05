@@ -37,6 +37,7 @@ export default function LandingPageComponent() {
         email: '',
         password: '',
         showPassword: false,
+        schools: ['Raffles Institution', 'Victoria Junior College', 'Dunman High School'],
     });
 
     const handleChange = (prop) => (event) => {
@@ -115,7 +116,15 @@ export default function LandingPageComponent() {
                             }
                             labelWidth={80}
                         />
-                        </FormControl>
+                    </FormControl>
+                    <Autocomplete
+                        id="combo-box-school-choices"
+                        options={schools}
+                        freeSolo={true}
+                        getOptionLabel={(option) => option.title}
+                        style={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                    />
                         <br/>
                         <Box display="flex" justifyContent="center" alignItems="center">
                             <ButtonGroup size="large" aria-label="large outlined primary button group" style={{"overflowX":"hidden"}}>
