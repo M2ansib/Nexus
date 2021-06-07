@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 
 import ReactDOM from 'react-dom';
@@ -37,6 +37,10 @@ import Dashboard from './Dashboard';
 import Profile from './Profile'
 import { Toolbar } from '@material-ui/core';
 
+import PubNub from "pubnub";
+import { PubNubProvider } from "pubnub-react";
+import pubnubKeys from "./chat/pubnub-keys.json";
+
 
 OverlayScrollbars(document.body, {
     nativeScrollbarsOverlaid: {
@@ -71,6 +75,11 @@ const theme = createMuiTheme({
 
 });
 
+const pubnub = new PubNub({
+    ...pubnubKeys,
+    uuid: "user_63ea15931d8541a3bd35e5b1f09087dc",
+});
+
 function Base() {
     const { observe, width, height } = useDimensions({
         useBorderBoxSize: true, // Tell the hook to measure based on the border-box size, default is false
@@ -81,29 +90,43 @@ function Base() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path="/">
-                        {/* <TopBar/>
+            {pubnubKeys.publishKey.length && pubnubKeys.subscribeKey.length ? (
+                <PubNubProvider client={pubnub}>
+                    <BrowserRouter>
+                        <Switch>
+                            <Route exact path="/">
+                                {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
-                        <Login />
-                    </Route>
-                    <Route exact path="/register">
-                        <Register />
-                    </Route>
-                    <Route exact path="/dash">
-                        <TopBar />
-                        <Toolbar />
-                        <Dashboard />
-                    </Route>
-                    <Route exact path="/profile">
-                        <TopBar />
-                        <Toolbar />
-                        <Profile />
-                    </Route>
-                    {/* <Route exact path="/login" component={Login} /> */}
-                </Switch>
-            </BrowserRouter>
+                                <Login />
+                            </Route>
+                            <Route exact path="/register">
+                                <Register />
+                            </Route>
+                            <Route exact path="/dash">
+                                <TopBar />
+                                <Toolbar />
+                                <Dashboard />
+                            </Route>
+                            <Route exact path="/profile">
+                                <TopBar />
+                                <Toolbar />
+                                <Profile />
+                            </Route>
+                            {/* <Route exact path="/login" component={Login} /> */}
+                        </Switch>
+                    </BrowserRouter>
+
+                </PubNubProvider>
+            ) : (
+                    <div className="pubnub-error">
+                        <h1>Warning! Missing PubNub keys</h1>
+                          Sign in or create an account to create an app on the
+                        <a href="https://dashboard.pubnub.com/">PubNub Admin Portal</a> and copy over the
+                          Publish/Subscribe keys into:
+                        <pre>samples/pubnub-keys.json</pre>
+                          in order to use the app properly.
+                    </div>
+                )}
         </ThemeProvider>
     );
 }

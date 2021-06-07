@@ -79,8 +79,8 @@ export default function LandingPageComponent() {
                             type="text"
                             value={values.name}
                             onChange={handleChange('name')}
-                            endAdornment={
-                            }
+                            // endAdornment={
+                            // }
                             labelWidth={80}
                         />
                     </FormControl>
@@ -90,8 +90,8 @@ export default function LandingPageComponent() {
                             type="text"
                             value={values.email}
                             onChange={handleChange('email')}
-                            endAdornment={
-                            }
+                            // endAdornment={
+                            // }
                             labelWidth={80}
                         />
                     </FormControl>

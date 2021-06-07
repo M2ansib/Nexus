@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -42,13 +42,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PairingCard(props) {
-    const classes = useStyles();
-    const name=props.name
-    const initials=props.initials
-    const school=props.school
-    const subjects=props.subjects
-    const remarks=props.remarks
+    const classes=useStyles()
+    const {name, initials, school, subjects, remarks, handleClick } = props
     const [expanded, setExpanded] = React.useState(false);
+
+    const inputAvatar = useRef()
+    const joinButton = useRef()
+
+
+    const joinClick = (e) => {
+        e.preventDefault();
+        enterChannel();
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -58,22 +63,22 @@ export default function PairingCard(props) {
         <Card className={classes.root} elevation={5}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
+                    <Avatar ref={inputAvatar} aria-label="recipe" className={classes.avatar}>
                         {initials}
-          </Avatar>
+                    </Avatar>
                 }
                 title={name}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
                     School: {school}
-        </Typography>
+                </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     Subjects Offered: {subjects}
-        </Typography>
+                </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     Remarks: {remarks}
-        </Typography>
+                </Typography>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton
@@ -90,8 +95,8 @@ export default function PairingCard(props) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <ButtonGroup fullWidth='true' orientation="vertical" display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">
-                        <Button>Schedule Appointment</Button>
-                        <Button>Message</Button>
+                        <Button onClick={handleClick}>Schedule Appointment</Button>
+                        <Button className="join" ref={joinButton} onClick={joinClick}>Message</Button>
                         <Button>Unpair</Button>
                         <Button>Report</Button>
                     </ButtonGroup>

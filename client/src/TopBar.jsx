@@ -18,6 +18,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import ForumIcon from '@material-ui/icons/Forum';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import Chat from './chat/Chat'
 
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
@@ -171,9 +172,14 @@ export default function PrimarySearchAppBar(props) {
                                 vertical: 'top',
                                 horizontal: 'center',
                             }}
+                            modal={null}
+                            hideBackdrop={true}
+                            disableBackdropClick={true}
+                            disableAutoFocus={true}
+                            disableEnforceFocus={true}
                         >
                             <Box p={2}>
-                                <Typography>View chats here...</Typography>
+                                <Chat/>
                             </Box>
                         </Popover>
                     </div>
@@ -252,7 +258,7 @@ export default function PrimarySearchAppBar(props) {
                                         }}
                                     >
                                         <Box p={2}>
-                                            <Typography>View chats here...</Typography>
+                                            <Chat/>
                                         </Box>
                                     </Popover>
                                 </div>
