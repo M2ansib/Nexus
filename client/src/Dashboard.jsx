@@ -16,8 +16,7 @@ import Calendar from "@ericz1803/react-google-calendar";
 import ApiCalendar from 'react-google-calendar-api';
 
 
-const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E" ;
-
+const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,7 +60,7 @@ const calStyles = {
 }
 
 function PairingsList(props) {
-    const {handleClick}=props
+    const { handleClick } = props
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [currentTime, setCurrentTime] = useState(0);
@@ -85,10 +84,10 @@ function PairingsList(props) {
                 <div className={classes.toolbar} />
                 <Toolbar />
                 <Box mx="2rem" py="2rem">
-                    <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." handleClick={handleClick}/>
+                    <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." handleClick={handleClick} />
                 </Box>
                 <Box mx="2rem" py="2rem">
-                    <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" handleClick={handleClick}/>
+                    <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" handleClick={handleClick} />
                 </Box>
             </Drawer>
         </React.Fragment>
@@ -98,23 +97,28 @@ function PairingsList(props) {
 
 export default function DashboardCards() {
     const [calendars, setCalendars] = useState([
-        { calendarId: ApiCalendar.calendar },
+        { calendarId: ApiCalendar.calendar, signedIn: false },
     ]);
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [sign, setSign] = useState()
 
-    useEffect(() => { console.log(ApiCalendar.sign) }, [ApiCalendar.sign])
+    const updateSign = (sign) => {
+        setSign(sign)
+    }
+    useEffect(() => {
+        ApiCalendar.onLoad(() => {
+            setSign(ApiCalendar.getSignInStatus())
+            ApiCalendar.listenSign(function (val) {
+                updateSign(val)
+            })
+        })
+    }, [])
 
     const handleClick = () => {
         setOpen(open => !open);
     };
-
-    ApiCalendar.listenSign(function () {
-        console.log(ApiCalendar.calendar)
-        // window.location.reload()
-    })
 
     const handleItemClick = (e, name) => {
         if (name === 'sign-in') {
@@ -129,14 +133,14 @@ export default function DashboardCards() {
 
         const event = {
             summary: document.getElementById("summaryRef").value,
-            end: {dateTime: new Date(document.getElementById("endTime").value)},
-            start: {dateTime: new Date(document.getElementById("startTime").value)},
+            end: { dateTime: new Date(document.getElementById("endTime").value) },
+            start: { dateTime: new Date(document.getElementById("startTime").value) },
             description: document.getElementById("descriptionRef").value
 
         };
         ApiCalendar.createEvent(event)
             .then((result) => {
-                console.log(result);
+                window.location.reload()
                 handleClick()
             })
             .catch((error) => {
@@ -149,7 +153,7 @@ export default function DashboardCards() {
         <div>
             <Grid container spacing={3}>
                 <Grid container item xs={3} spacing={0}>
-                    <PairingsList handleClick={handleClick}/>
+                    <PairingsList handleClick={handleClick} />
                 </Grid>
                 <Grid container item xs={9} spacing={0} justify="center" alignItems="flex-start">
                     <Box mx="2rem" py="2rem" style={{ width: "80%" }}>
@@ -183,7 +187,9 @@ export default function DashboardCards() {
                             </div>
                         </Modal>
                         <Button onClick={(e) => handleItemClick(e, 'sign-out')}>sign-out</Button>
-                        {!sign ? <Calendar apiKey={API_KEY} calendars={calendars} styles={calStyles} /> : null}
+                        {sign ? (
+                            <Calendar apiKey={API_KEY} calendars={calendars} styles={calStyles} />
+                        ) : null}
                     </Box>
                 </Grid>
             </Grid>
