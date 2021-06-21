@@ -56,6 +56,8 @@ const theme = createMuiTheme({
         type: "light",
         primary: { main: '#2196f3', },
         secondary: { main: '#2196f3', contrastText: 'white', },
+        default: { main: "lightgreen" },
+        error: { main: "#f08080" }
     },
     typography: {
         fontFamily: [
@@ -78,6 +80,7 @@ const theme = createMuiTheme({
 const pubnub = new PubNub({
     ...pubnubKeys,
     uuid: "user_63ea15931d8541a3bd35e5b1f09087dc",
+    suppressLeaveEvents: true
 });
 
 function Base() {

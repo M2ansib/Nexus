@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PairingCard(props) {
     const classes=useStyles()
-    const {name, initials, school, subjects, remarks, handleClick } = props
+    const {name, initials, school, subjects, remarks, handleClick, email } = props
     const [expanded, setExpanded] = React.useState(false);
 
     const inputAvatar = useRef()

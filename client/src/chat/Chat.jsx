@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Avatar from '@material-ui/core/Avatar';
 import { red } from '@material-ui/core/colors';
-import { Picker } from "emoji-mart";
+import Badge from '@material-ui/core/Badge';
+import EmojiPicker from 'emoji-picker-react'
 import { usePubNub } from "pubnub-react";
 import {
     ChannelList,
     Chat,
-    MemberList,
     MessageInput,
     MessageList,
     TypingIndicator,
@@ -30,16 +30,28 @@ const users = rawUsers;
 // const socialChannelList = socialChannels;
 const directChannelList = directChannels;
 const allChannelIds = [...directChannelList].map((c) => c.id);
+const channelData = allChannelIds.map((channel, i) => (
+    { [channel]: false }
+))
+
+const PickerAdapter = (props) => {
+    // handling method should call onSelect with an object exposing a "native" property
+    
+    const handleEmoji = (e, emoji) => {
+        if (props.onSelect) props.onSelect({ native });
+    };
+    // onEmojiClick is a method in emoji-picker-react used to handle emoji picking
+    return <EmojiPicker onEmojiClick={handleEmoji} />;
+};
 
 export default function SimpleChat() {
     const pubnub = usePubNub(); //usePubNub is only used here to get current user info (as it's randomly selected)
     const [theme, setTheme] = useState("light");
     const [showMembers, setShowMembers] = useState(false);
     const [showChannels, setShowChannels] = useState(true);
-    const [presenceData] = usePresence({ channels: allChannelIds }); // usePresnce is one of the custom hooks provided by Chat Components
     const [currentChannel, setCurrentChannel] = useState(directChannelList[0]);
+    const [channelOnline, setChannelOnline] = useState(channelData)
 
-    const presentUUIDs = presenceData[currentChannel.id]?.occupants?.map((o) => o.uuid);
     const currentUser = users.find((u) => u.id === pubnub.getUUID());
 
 
@@ -48,6 +60,7 @@ export default function SimpleChat() {
      * custom behaviors (dark mode, showing/hiding panels, responsive design) */
     return (
         <div className={`app-simple ${theme}`}>
+
             {/* Be sure to wrap Chat component in PubNubProvider from pubnub-react package.
       In this case it's done in the index.tsx file */}
             <Chat theme={theme} users={users} currentChannel={currentChannel.id} channels={allChannelIds}>
@@ -62,6 +75,7 @@ export default function SimpleChat() {
                         <ChannelList
                             channels={directChannelList}
                             onChannelSwitched={(channel) => setCurrentChannel(channel)}
+                            channelRenderer={(props) => customChannelRenderer(props, setCurrentChannel)}
                         />
                     </div>
                 </div>
@@ -75,13 +89,13 @@ export default function SimpleChat() {
                     <MessageList
                         fetchMessages={100}
                         enableReactions
-                        reactionsPicker={<Picker />}
+                        reactionsPicker={<PickerAdapter />}
                         messageRenderer={customMessageRenderer}
 
                     >
                         <TypingIndicator />
                     </MessageList>
-                    <MessageInput typingIndicator emojiPicker={<Picker />} />
+                    <MessageInput typingIndicator emojiPicker={<PickerAdapter />} />
                 </div>
             </Chat>
         </div>
@@ -91,12 +105,50 @@ export default function SimpleChat() {
 const customMessageRenderer = (props) => {
     console.log(props)
     return (
-        <div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Avatar aria-label="recipe" style={{ backgroundColor: red[500], width: 35, height: 35, margin: 5 }}>{props.user?.initials}{" "}</Avatar>
-                <strong style={{ margin: 5 }}>{props.user?.name}</strong> {props.time}
+        <div className="pn-msg pn-msg--own" style={{ width: "100%", display: "flex", alignItems: "flex-start" }}>
+            <Avatar aria-label="recipe" style={{ backgroundColor: red[500], width: 30, height: 30, marginRight: 10, fontSize: 15 }}>{props.user?.initials}{" "}</Avatar>
+            <div className="pn-msg__main">
+                <div className="pn-msg__content">
+                    <div className="pn-msg__title">
+                        <span className="pn-msg__author">{props.user?.name}</span>
+                        <span className="pn-msg__time">{props.time}</span>
+                    </div>
+                    <div className="pn-msg__bubble">{props.message.message.text}</div>
+                </div>
+                <div className="pn-msg__extras">
+                    <div className="pn-msg__reactions">
+                        {props.message?.data?.reaction && Object.keys(props.message.data.reaction).map((reaction, index) => (
+                            <div className="pn-msg__reaction pn-msg__reaction--active">
+                                {reaction + " " + props.message.data.reaction[reaction].length}
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
-            <p>{props.message.message.text}</p>
+        </div>
+    )
+}
+
+const customChannelRenderer = (props, setCurrentChannel) => {
+    const [presenceData] = usePresence(); // usePresence is one of the custom hooks provided by Chat Components
+    const [active, setActive] = useState(false)
+
+    Object.keys(presenceData).map((channel, index) => {
+        let channelPresence = presenceData[channel]
+        console.log(channelPresence)
+        if (props.id === channel && channelPresence.occupancy > 1) {
+            setActive(true)
+        }
+    })
+
+    return (
+        <div className="pn-channel " onClick={() => setCurrentChannel(props)}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", width: "100%" }}>
+                <Badge variant="dot" color={active ? "default" : "error"} disabled={!active} badgeContent=" " overlap="circle">
+                    <Avatar aria-label="recipe" style={{ backgroundColor: red[500], width: 30, height: 30, fontSize: 15 }}>{props.initials}</Avatar>
+                </Badge>
+                <p className="pn-channel__name" style={{ color: "#585858", marginLeft: 10 }}>{props.name}</p>
+            </div>
         </div>
     )
 }

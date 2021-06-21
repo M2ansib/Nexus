@@ -27,12 +27,15 @@
     "@juggle/resize-observer": "^3.3.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "@pubnub/react-chat-components": "^0.2.0",
     "chat": "^1.0.8",
     "clsx": "^1.1.1",
     "cors": "^2.8.5",
     "deepcopy": "^2.1.0",
     "emoji-mart": "^3.0.1",
+    "emoji-picker-react": "^3.4.8",
+    "emoji-twemoji-react": "^0.0.11",
     "jquery": "^3.6.0",
     "material-ui-popup-state": "^1.8.3",
     "notistack": "^1.0.1",
@@ -51,7 +54,9 @@
     "react-modal": "^3.11.2",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.4.1",
-    "socket.io-client": "^4.1.2"
+    "react-twemoji-picker": "github:brianhung/emojipicker",
+    "socket.io-client": "^4.1.2",
+    "twemoji": "^13.1.0"
   },
   "externals": {
     "parcel_exclusions/**/*": false

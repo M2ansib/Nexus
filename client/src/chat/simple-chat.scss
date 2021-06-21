@@ -20,10 +20,10 @@
 
   .pn-channel-list--light {
     --channel-list__background: #ffffff;
-    --channel--active__background: #f0f3f7;
-    --channel--hover__background: #5babfc;
+    --channel--active__background: #585858;
+    --channel--hover__background: var(--app-chat-background);
     --channel__name__color: #585858;
-    --channel--active__name__color: #585858;
+    --channel--active__name__color: #585858 !important;
   }
 }
 
@@ -50,7 +50,7 @@
     --channel--active__background: #2f3136;
     --channel--hover__background: #de2440;
     --channel__name__color: #9b9b9b;
-    --channel--active__name__color: #9b9b9b;
+    --channel--active__name__color: #585858;
   }
 }
 
