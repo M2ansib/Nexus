@@ -19,8 +19,9 @@ import { Button, ButtonGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        // minWidth: 200,
         maxWidth: 345,
-        width: 345
+        width: "100%"
     },
     media: {
         height: 0,
@@ -42,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PairingCard(props) {
-    const classes=useStyles()
-    const {name, initials, school, subjects, remarks, handleClick, email } = props
+    const classes = useStyles()
+    const { name, initials, school, subjects, remarks, handleClick, email } = props
     const [expanded, setExpanded] = React.useState(false);
 
     const inputAvatar = useRef()

@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
+import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from './Card';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import Modal from '@material-ui/core/Modal';
 import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
@@ -26,12 +28,12 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     paper: {
-        position: 'absolute',
-        width: 400,
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+        // position: 'absolute',
+        // minWidth: 400,
+        // backgroundColor: theme.palette.background.paper,
+        // border: '2px solid #000',
+        // boxShadow: theme.shadows[5],
+        padding: 10,
     },
 }));
 
@@ -50,6 +52,7 @@ const calStyles = {
     //you can use object styles (no import required)
     calendar: {
         borderWidth: "3px", //make outer edge of calendar thicker
+        minWidth: 400
     },
 
     //you can also use emotion's string styles
@@ -71,26 +74,27 @@ function PairingsList(props) {
         });
     }, []);
     return (
-        <React.Fragment>
-            <Drawer
+        <div className={classes.paper} style={{ height: window.innerHeight - 64, overflowY: "scroll" }}>
+            {/* <Drawer
                 className={classes.drawer}
-                variant="permanent"
+                variant="persistent"
+                open={true}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
                 anchor="left"
                 style={{ zIndex: 1 }}
-            >
-                <div className={classes.toolbar} />
-                <Toolbar />
-                <Box mx="2rem" py="2rem">
-                    <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." handleClick={handleClick} email="av@gmail.com" />
-                </Box>
-                <Box mx="2rem" py="2rem">
-                    <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" handleClick={handleClick} email="tch@gmail.com" />
-                </Box>
-            </Drawer>
-        </React.Fragment>
+            > */}
+            {/* <div className={classes.toolbar} /> */}
+            {/* <Toolbar /> */}
+            <Box py="2rem">
+                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." handleClick={handleClick} email="av@gmail.com" />
+            </Box>
+            <Box py="2rem">
+                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" handleClick={handleClick} email="tch@gmail.com" />
+            </Box>
+            {/* </Drawer> */}
+        </div>
     );
 }
 
@@ -153,13 +157,25 @@ export default function DashboardCards() {
     }
 
     return (
-        <div>
-            <Grid container spacing={3}>
-                <Grid container item xs={3} spacing={0} >
+        <div style={{ padding: 20 }}>
+            <Grid
+                container
+                direction="row"
+                ref={(el) => {
+                    if (el) {
+                        el.style.setProperty('align-items', "center", 'important');
+                        el.style.setProperty('justify-content', "center", 'important');
+                    }
+                }}
+                style={{ paddingLeft: 15, paddingRight: 15 }}
+                spacing={3}
+            >
+                <Grid xs={12} sm={5} md={3} justify="flex-start" alignItems="flex-start">
                     <PairingsList handleClick={handleClick} />
                 </Grid>
-                <Grid container item xs={9} spacing={0} justify="center" alignItems="flex-start">
-                    <Box mx="2rem" py="2rem" style={{ width: "80%" }}>
+                <Grid item xs={12} sm={6} md={9} justify="center" alignItems="flex-start" style={{ height: window.innerHeight - 64, overflowY: "scroll" }} >
+                    {/* <main className={classes.contentShift}> */}
+                    <Box>
                         <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
                         <br />
                         <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
@@ -194,9 +210,9 @@ export default function DashboardCards() {
                             <Calendar apiKey={API_KEY} calendars={calendars} styles={calStyles} />
                         ) : null}
                     </Box>
+                    {/* </main> */}
                 </Grid>
             </Grid>
-
         </div>
     )
 }
