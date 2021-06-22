@@ -28,13 +28,20 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     paper: {
-        // position: 'absolute',
-        // minWidth: 400,
-        // backgroundColor: theme.palette.background.paper,
-        // border: '2px solid #000',
-        // boxShadow: theme.shadows[5],
         padding: 10,
     },
+    modal: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    }
 }));
 
 function getModalStyle() {
@@ -186,19 +193,19 @@ export default function DashboardCards() {
                             aria-labelledby="simple-modal-title"
                             aria-describedby="simple-modal-description"
                         >
-                            <div style={modalStyle} className={classes.paper}>
+                            <div style={modalStyle} className={classes.modal}>
                                 <h2>Event Details</h2>
-                                <form onSubmit={createEvent}>
-                                    <FormControl>
+                                <form onSubmit={createEvent} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
+                                    <FormControl style={{ width: 350 }}>
                                         <Input id="summaryRef" aria-describedby="my-helper-text" placeholder="event title" />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl style={{ width: 350 }}>
                                         <Input id="descriptionRef" aria-describedby="my-helper-text" placeholder="event description" />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl style={{ width: 350 }}>
                                         <Input id="startTime" aria-describedby="my-helper-text" placeholder="start time" type="datetime-local" />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl style={{ width: 350 }}>
                                         <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
                                     </FormControl>
                                     <Button type="submit">Confirm</Button>
