@@ -80,10 +80,19 @@ export default function LandingPageComponent() {
             <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "fixed", width: "100vw", height: "100vh" }}>
                 <Paper elevation={3} className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)", padding: "1em" }}>
                     <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", paddingRight: ".5em", overflowX: 'hidden' }}>Welcome to Ascademy!</h1>
-                    <form noValidate autoComplete="off">
-                        <TextField id="outlined-basic" required label="ID" variant="outlined" width="100%" color="secondary" />
-                        <br />
-                        <FormControl required variant="outlined">
+                    <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                        <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                            <InputLabel>ID</InputLabel>
+                            <OutlinedInput
+                                type="text"
+                                value={values.id}
+                                onChange={handleChange('id')}
+                                // endAdornment={
+                                // }
+                                labelWidth={80}
+                            />
+                        </FormControl>
+                        <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
                             <InputLabel>Name</InputLabel>
                             <OutlinedInput
                                 type="text"
@@ -94,7 +103,7 @@ export default function LandingPageComponent() {
                                 labelWidth={80}
                             />
                         </FormControl>
-                        <FormControl required variant="outlined">
+                        <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
                             <InputLabel>Email</InputLabel>
                             <OutlinedInput
                                 type="text"
@@ -105,7 +114,7 @@ export default function LandingPageComponent() {
                                 labelWidth={80}
                             />
                         </FormControl>
-                        <FormControl required variant="outlined">
+                        <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password"
@@ -132,11 +141,12 @@ export default function LandingPageComponent() {
                             options={values.schools}
                             freeSolo={true}
                             getOptionLabel={(option) => option}
-                            style={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                            style={{ width: "100%", margin: 10 }}
+                            renderInput={(params) => <TextField {...params} label="School" variant="outlined" />}
                         />
                         <Autocomplete
                             id="country-select-demo"
+                            style={{ width: "100%", margin: 10 }}
                             options={countries}
                             autoHighlight
                             getOptionLabel={(option) => option.label}
@@ -158,18 +168,11 @@ export default function LandingPageComponent() {
                                 />
                             )}
                         />
-                        <br />
                         <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden" }}>
+                            <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden", margin:10 }}>
                                 <Button>
-                                    <Grid container spacing={1} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                        <Grid item style={{ display: "flex" }}>
-                                            <LockOpenRoundedIcon />
-                                        </Grid>
-                                        <Grid item>
+                                    <LockOpenRoundedIcon />
                                             Register
-                                    </Grid>
-                                    </Grid>
                                 </Button>
                             </ButtonGroup>
                         </Box>

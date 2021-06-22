@@ -97,9 +97,11 @@ export default function PrimarySearchAppBar(props) {
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [drawerAnchorEl, setDrawerAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
+    const isDrawerOpen = Boolean(drawerAnchorEl)
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleProfileMenuOpen = (event) => {
@@ -123,6 +125,14 @@ export default function PrimarySearchAppBar(props) {
         // },});
     };
 
+    const handleDrawerOpen = (event) => {
+        setDrawerAnchorEl(event.currentTarget);
+    };
+
+    const handleDrawerClose = () => {
+        setDrawerAnchorEl(null);
+    };
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         // <OverlayScrollbarsComponent options={{nativeScrollbarsOverlaid: {initialize: true}, scrollbars: { autoHide: "move"}}}>
@@ -135,7 +145,7 @@ export default function PrimarySearchAppBar(props) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem component={Link} to="/profile">Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
         </Menu>
         // </OverlayScrollbarsComponent>
@@ -212,9 +222,26 @@ export default function PrimarySearchAppBar(props) {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={handleDrawerOpen}
                     >
                         <MenuIcon />
                     </IconButton>
+                    <Menu
+                        open={isDrawerOpen}
+                        anchorEl={drawerAnchorEl}
+                        onClose={handleDrawerClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                    >
+                        <MenuItem onClick={handleDrawerClose}>Mentor</MenuItem>
+                        <MenuItem onClick={handleDrawerClose}>Mentee</MenuItem>
+                    </Menu>
                     <Typography className={classes.title} variant="h6" noWrap>
                         Ascademy {viewName}
                     </Typography>
