@@ -21,6 +21,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import iCalendarPlugin from '@fullcalendar/icalendar'
+import calEvents from './calendar/cal.ics'
 
 const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
 
@@ -126,7 +127,7 @@ export default function DashboardCards() {
                 right: 'dayGridMonth,timeGridWeek'
             },
             events: {
-                url: 'http://localhost:8080/calendar/cal.ics',
+                url: calEvents,
                 format: 'ics'
             },
             eventTimeFormat: {
