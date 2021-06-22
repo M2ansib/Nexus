@@ -14,9 +14,13 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar } from '@material-ui/core';
-import Calendar from "@ericz1803/react-google-calendar";
+// import Calendar from "@ericz1803/react-google-calendar";
 import ApiCalendar from 'react-google-calendar-api';
-
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import iCalendarPlugin from '@fullcalendar/icalendar'
 
 const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
 
@@ -53,20 +57,6 @@ function getModalStyle() {
         left: `${left}%`,
         transform: `translate(-${top}%, -${left}%)`,
     };
-}
-
-const calStyles = {
-    //you can use object styles (no import required)
-    calendar: {
-        borderWidth: "3px", //make outer edge of calendar thicker
-        minWidth: 400
-    },
-
-    //you can also use emotion's string styles
-    today: {
-        color: "blue",
-        border: "1px solid blue"
-    }
 }
 
 function PairingsList(props) {
@@ -114,6 +104,7 @@ export default function DashboardCards() {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [sign, setSign] = useState()
+    const calendarEl = useRef()
 
     const updateSign = (sign) => {
         setSign(sign)
@@ -125,6 +116,27 @@ export default function DashboardCards() {
                 updateSign(val)
             })
         })
+
+        let cal = new Calendar(calendarEl.current, {
+            plugins: [dayGridPlugin, timeGridPlugin, iCalendarPlugin],
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek'
+            },
+            events: {
+                url: 'http://localhost:8080/calendar/cal.ics',
+                format: 'ics'
+            },
+            eventTimeFormat: {
+                hour: 'numeric',
+                minute: '2-digit',
+                meridiem: 'short'
+            }
+        });
+
+        cal.render()
     }, [])
 
     const handleClick = () => {
@@ -164,62 +176,56 @@ export default function DashboardCards() {
     }
 
     return (
-        <div style={{ padding: 20 }}>
-            <Grid
-                container
-                direction="row"
-                ref={(el) => {
-                    if (el) {
-                        el.style.setProperty('align-items', "center", 'important');
-                        el.style.setProperty('justify-content', "center", 'important');
-                    }
-                }}
-                style={{ paddingLeft: 15, paddingRight: 15 }}
-                spacing={3}
-            >
-                <Grid xs={12} sm={5} md={3} justify="flex-start" alignItems="flex-start">
-                    <PairingsList handleClick={handleClick} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={9} justify="center" alignItems="flex-start" style={{ height: window.innerHeight - 64, overflowY: "scroll" }} >
-                    {/* <main className={classes.contentShift}> */}
-                    <Box>
-                        <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
-                        <br />
-                        <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
-                        <Button onClick={(e) => handleItemClick(e, 'sign-in')} >sign-in</Button>
-                        <Modal
-                            open={open}
-                            onClose={handleClick}
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                        >
-                            <div style={modalStyle} className={classes.modal}>
-                                <h2>Event Details</h2>
-                                <form onSubmit={createEvent} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
-                                    <FormControl style={{ width: 350 }}>
-                                        <Input id="summaryRef" aria-describedby="my-helper-text" placeholder="event title" />
-                                    </FormControl>
-                                    <FormControl style={{ width: 350 }}>
-                                        <Input id="descriptionRef" aria-describedby="my-helper-text" placeholder="event description" />
-                                    </FormControl>
-                                    <FormControl style={{ width: 350 }}>
-                                        <Input id="startTime" aria-describedby="my-helper-text" placeholder="start time" type="datetime-local" />
-                                    </FormControl>
-                                    <FormControl style={{ width: 350 }}>
-                                        <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
-                                    </FormControl>
-                                    <Button type="submit">Confirm</Button>
-                                </form>
-                            </div>
-                        </Modal>
-                        <Button onClick={(e) => handleItemClick(e, 'sign-out')}>sign-out</Button>
-                        {sign ? (
-                            <Calendar apiKey={API_KEY} calendars={calendars} styles={calStyles} />
-                        ) : null}
-                    </Box>
-                    {/* </main> */}
-                </Grid>
+        <Grid
+            container
+            direction="row"
+            ref={(el) => {
+                if (el) {
+                    el.style.setProperty('align-items', "center", 'important');
+                    el.style.setProperty('justify-content', "center", 'important');
+                }
+            }}
+            style={{ paddingLeft: 15, paddingRight: 15 }}
+            spacing={3}
+        >
+            <Grid xs={12} sm={5} md={3} justify="flex-start" alignItems="flex-start">
+                <PairingsList handleClick={handleClick} />
             </Grid>
-        </div>
+            <Grid item xs={12} sm={6} md={9} justify="center" alignItems="flex-start" style={{ height: window.innerHeight - 64, overflowY: "scroll" }} >
+                {/* <main className={classes.contentShift}> */}
+                <Box>
+                    <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
+                    <br />
+                    <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
+                    <Modal
+                        open={open}
+                        onClose={handleClick}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                    >
+                        <div style={modalStyle} className={classes.modal}>
+                            <h2>Event Details</h2>
+                            <form onSubmit={createEvent} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
+                                <FormControl style={{ width: 350 }}>
+                                    <Input id="summaryRef" aria-describedby="my-helper-text" placeholder="event title" />
+                                </FormControl>
+                                <FormControl style={{ width: 350 }}>
+                                    <Input id="descriptionRef" aria-describedby="my-helper-text" placeholder="event description" />
+                                </FormControl>
+                                <FormControl style={{ width: 350 }}>
+                                    <Input id="startTime" aria-describedby="my-helper-text" placeholder="start time" type="datetime-local" />
+                                </FormControl>
+                                <FormControl style={{ width: 350 }}>
+                                    <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
+                                </FormControl>
+                                <Button type="submit">Confirm</Button>
+                            </form>
+                        </div>
+                    </Modal>
+                    <div ref={calendarEl}></div>
+                </Box>
+                {/* </main> */}
+            </Grid>
+        </Grid>
     )
 }
