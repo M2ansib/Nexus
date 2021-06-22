@@ -19,6 +19,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import Chat from './chat/Chat'
+import { Link } from "react-router-dom"
 
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
@@ -91,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props) {
 
+    const [inProp, setInProp] = useState(false)
     const [viewName, setViewName] = useState("");
 
     const classes = useStyles();
@@ -151,40 +153,34 @@ export default function PrimarySearchAppBar(props) {
             onClose={handleMobileMenuClose}
             style={{ "overflowX": "hidden", }}
         >
-            <PopupState variant="popover" popupId="demo-popup-popover-mobile">
-                {(popupStateMobile) => (
-                    <div>
-                        <MenuItem {...bindTrigger(popupStateMobile)}>
-                            <IconButton aria-label="show 4 new mails" color="inherit" >
-                                <Badge badgeContent={4} color="secondary">
-                                    <ForumIcon />
-                                </Badge>
-                            </IconButton>
-                            <p>Chat</p>
-                        </MenuItem>
-                        <Popover
-                            {...bindPopover(popupStateMobile)}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'center',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'center',
-                            }}
-                            modal={null}
-                            hideBackdrop={true}
-                            disableBackdropClick={true}
-                            disableAutoFocus={true}
-                            disableEnforceFocus={true}
-                        >
-                            <Box p={2}>
-                                <Chat/>
-                            </Box>
-                        </Popover>
-                    </div>
-                )}
-            </PopupState>
+            <MenuItem component={Link} to="/chat">
+                <IconButton aria-label="show 4 new mails" color="inherit" >
+                    <Badge badgeContent={4} color="secondary">
+                        <ForumIcon />
+                    </Badge>
+                </IconButton>
+                <p>Chat</p>
+            </MenuItem>
+            {/* <Popover
+                {...bindPopover(popupStateMobile)}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                modal={null}
+                hideBackdrop={true}
+                disableBackdropClick={true}
+                disableAutoFocus={true}
+                disableEnforceFocus={true}
+            >
+                <Box p={2}>
+                    <Chat />
+                </Box>
+            </Popover> */}
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
                     <Badge badgeContent={11} color="secondary">
@@ -237,34 +233,26 @@ export default function PrimarySearchAppBar(props) {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <PopupState variant="popover" popupId="demo-popup-popover">
-                            {(popupState) => (
-                                <div>
-                                    <IconButton aria-label="show 4 new mails" color="inherit" {...bindTrigger(popupState)}>
-                                        <Badge badgeContent={4} color="secondary">
-                                            <ForumIcon />
-                                        </Badge>
-                                    </IconButton>
-
-                                    <Popover
-                                        {...bindPopover(popupState)}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'center',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'center',
-                                        }}
-                                    >
-                                        <Box p={2}>
-                                            <Chat/>
-                                        </Box>
-                                    </Popover>
-                                </div>
-                            )}
-                        </PopupState>
-
+                        <IconButton aria-label="show 4 new mails" color="inherit" component={Link} to="/chat">
+                            <Badge badgeContent={4} color="secondary">
+                                <ForumIcon />
+                            </Badge>
+                        </IconButton>
+                        {/* <Popover
+                            {...bindPopover(popupState)}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                            }}
+                        >
+                            <Box p={2}>
+                                <Chat />
+                            </Box>
+                        </Popover> */}
                         <IconButton aria-label="show 17 new notifications" color="inherit">
                             <Badge badgeContent={17} color="secondary">
                                 <NotificationsIcon />

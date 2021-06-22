@@ -13,7 +13,7 @@ import Box from '@material-ui/core/Box';
 
 import {
     TransitionGroup,
-    CSSTransition
+    CSSTransition,
 } from "react-transition-group";
 
 import {
@@ -35,12 +35,12 @@ import Login from './views/Login';
 import Register from './views/Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile'
+import Chat from './Chat'
 import { Toolbar } from '@material-ui/core';
 
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
 import pubnubKeys from "./chat/pubnub-keys.json";
-
 
 OverlayScrollbars(document.body, {
     nativeScrollbarsOverlaid: {
@@ -96,27 +96,41 @@ function Base() {
             {pubnubKeys.publishKey.length && pubnubKeys.subscribeKey.length ? (
                 <PubNubProvider client={pubnub}>
                     <BrowserRouter>
-                        <Switch>
-                            <Route exact path="/">
-                                {/* <TopBar/>
+                        {/* <Switch> */}
+                        <Route exact path="/">
+                            {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
-                                <Login />
-                            </Route>
-                            <Route exact path="/register">
-                                <Register />
-                            </Route>
-                            <Route exact path="/dash">
-                                <TopBar />
-                                <Toolbar />
-                                <Dashboard />
-                            </Route>
-                            <Route exact path="/profile">
-                                <TopBar />
-                                <Toolbar />
-                                <Profile />
-                            </Route>
-                            {/* <Route exact path="/login" component={Login} /> */}
-                        </Switch>
+                            <Login />
+                        </Route>
+                        <Route exact path="/register">
+                            <Register />
+                        </Route>
+                        <Route exact path="/dash">
+                            <TopBar />
+                            <Toolbar />
+                            <Dashboard />
+                        </Route>
+                        <Route exact path="/profile">
+                            <TopBar />
+                            <Toolbar />
+                            <Profile />
+                        </Route>
+                        <Route exact path="/chat">
+                            {({ match }) => (
+                                <CSSTransition
+                                    in={match != null}
+                                    timeout={1000}
+                                    classNames="alert"
+                                    unmountOnExit
+                                >
+                                    <>
+                                        <Chat />
+                                    </>
+                                </CSSTransition>
+                            )}
+                        </Route>
+                        {/* <Route exact path="/login" component={Login} /> */}
+                        {/* </Switch> */}
                     </BrowserRouter>
 
                 </PubNubProvider>
