@@ -70,36 +70,25 @@ export default function DashboardCards() {
         setSign(sign)
     }
     useEffect(() => {
-        fetch('/api/get_cal')
-            .then(res => {
-                console.log(res)
-                let cal = new Calendar(calendarEl.current, {
-                    plugins: [dayGridPlugin, timeGridPlugin, iCalendarPlugin],
-                    initialView: 'dayGridMonth',
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek'
-                    },
-                    events: {
-                        url: res,
-                        format: 'ics'
-                    },
-                    eventTimeFormat: {
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        meridiem: 'short'
-                    }
-                });
-
-                cal.render()
-            })
-            .then(res => {
-                console.log(res)
+        let cal = new Calendar(calendarEl.current, {
+            plugins: [dayGridPlugin, timeGridPlugin, iCalendarPlugin],
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek'
             },
-                error => {
-                    console.log(error)
-                })
+            events: {
+                url: "http://localhost:8080/api/get_cal",
+                format: 'ics'
+            },
+            eventTimeFormat: {
+                hour: 'numeric',
+                minute: '2-digit',
+                meridiem: 'short'
+            }
+        });
+        cal.render()
 
     }, [])
 

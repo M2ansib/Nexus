@@ -1,4 +1,6 @@
-from flask import jsonify, request, Response, session, Blueprint
+from flask import jsonify, request, Response, session, Blueprint, send_file
+from ics import Calendar, Event
+import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 import flask_login
 import logging
@@ -10,7 +12,7 @@ db_api = Blueprint('db_api', __name__, url_prefix='/db_api')
 class User(flask_login.UserMixin):
     def __init__(self, userid):
         self.id = userid
-        
+
 from appserver import limiter
 
 @admin_api.route('/login', methods=['POST'])
@@ -43,6 +45,25 @@ def logout():
     return jsonify({"OK": 200})
 
 
+@admin_api.route('/write_to_cal', methods=['POST'])
+def write_to_cal():
+    c = Calendar('./cal.ics')
+    e = Event()
+    e.name = request.args["name"]
+    e.begin = request.args["begin"]
+    e.end = request.args["end"]
+    for attendee in request.args["attendees"]:
+        e.add_attendee(attendee)
+    c.events.add(e)
+    with open('./cal.ics', 'w') as f:
+        f.write(str(c))
+    return jsonify({"OK": 200})
+
+@admin_api.route('/get_cal', methods=['GET'])
+def get_cal():
+    return send_file('./cal.ics', attachment_filename="cal.ics")
+
+
 @admin_api.route('/whoami', methods=['GET'])
 @flask_login.login_required
 def getUser():
@@ -50,7 +71,7 @@ def getUser():
     if flask_login.current_user.is_authenticated:
         user = flask_login.current_user.get_id()
     return jsonify({'success': {'user': user}})
-    
+
 import time
 @admin_api.route('/time')
 @limiter.exempt
