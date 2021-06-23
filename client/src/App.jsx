@@ -36,6 +36,7 @@ import Register from './views/Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile'
 import Chat from './Chat'
+import Pairings from './Pairings'
 import { Toolbar } from '@material-ui/core';
 
 import PubNub from "pubnub";
@@ -109,6 +110,11 @@ function Base() {
                             <TopBar />
                             <Toolbar />
                             <Dashboard />
+                        </Route>
+                        <Route exact path="/groupings">
+                            <TopBar />
+                            <Toolbar />
+                            <Pairings />
                         </Route>
                         <Route exact path="/profile">
                             <TopBar />

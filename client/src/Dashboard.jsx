@@ -14,14 +14,12 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar } from '@material-ui/core';
-// import Calendar from "@ericz1803/react-google-calendar";
-import ApiCalendar from 'react-google-calendar-api';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import iCalendarPlugin from '@fullcalendar/icalendar'
-import calEvents from './calendar/cal.ics'
+// import calEvents from './calendar/cal.ics'
 
 const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
 
@@ -60,47 +58,8 @@ function getModalStyle() {
     };
 }
 
-function PairingsList(props) {
-    const { handleClick } = props
-    const classes = useStyles();
-    const [modalStyle] = React.useState(getModalStyle);
-    const [currentTime, setCurrentTime] = useState(0);
-
-    useEffect(() => {
-        fetch('/api/time').then(res => res.json()).then(data => {
-            setCurrentTime(data.time);
-        });
-    }, []);
-    return (
-        <div className={classes.paper} style={{ height: window.innerHeight - 64, overflowY: "scroll" }}>
-            {/* <Drawer
-                className={classes.drawer}
-                variant="persistent"
-                open={true}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-                anchor="left"
-                style={{ zIndex: 1 }}
-            > */}
-            {/* <div className={classes.toolbar} /> */}
-            {/* <Toolbar /> */}
-            <Box py="2rem">
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." handleClick={handleClick} email="av@gmail.com" />
-            </Box>
-            <Box py="2rem">
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" handleClick={handleClick} email="tch@gmail.com" />
-            </Box>
-            {/* </Drawer> */}
-        </div>
-    );
-}
-
 
 export default function DashboardCards() {
-    const [calendars, setCalendars] = useState([
-        { calendarId: ApiCalendar.calendar, signedIn: false },
-    ]);
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
@@ -111,46 +70,42 @@ export default function DashboardCards() {
         setSign(sign)
     }
     useEffect(() => {
-        ApiCalendar.onLoad(() => {
-            setSign(ApiCalendar.getSignInStatus())
-            ApiCalendar.listenSign(function (val) {
-                updateSign(val)
+        fetch('/api/get_cal')
+            .then(res => {
+                console.log(res)
+                let cal = new Calendar(calendarEl.current, {
+                    plugins: [dayGridPlugin, timeGridPlugin, iCalendarPlugin],
+                    initialView: 'dayGridMonth',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek'
+                    },
+                    events: {
+                        url: res,
+                        format: 'ics'
+                    },
+                    eventTimeFormat: {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        meridiem: 'short'
+                    }
+                });
+
+                cal.render()
             })
-        })
-
-        let cal = new Calendar(calendarEl.current, {
-            plugins: [dayGridPlugin, timeGridPlugin, iCalendarPlugin],
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek'
+            .then(res => {
+                console.log(res)
             },
-            events: {
-                url: calEvents,
-                format: 'ics'
-            },
-            eventTimeFormat: {
-                hour: 'numeric',
-                minute: '2-digit',
-                meridiem: 'short'
-            }
-        });
+                error => {
+                    console.log(error)
+                })
 
-        cal.render()
     }, [])
 
     const handleClick = () => {
         setOpen(open => !open);
     };
-
-    const handleItemClick = (e, name) => {
-        if (name === 'sign-in') {
-            ApiCalendar.handleAuthClick();
-        } else if (name === 'sign-out') {
-            ApiCalendar.handleSignoutClick();
-        }
-    }
 
     const createEvent = (e) => {
         e.preventDefault()
@@ -165,15 +120,6 @@ export default function DashboardCards() {
             ]
 
         };
-        ApiCalendar.createEvent(event)
-            .then((result) => {
-                window.location.reload()
-                handleClick()
-            })
-            .catch((error) => {
-                console.log(error);
-                alert("unable to create event")
-            });
     }
 
     return (
@@ -186,13 +132,10 @@ export default function DashboardCards() {
                     el.style.setProperty('justify-content', "center", 'important');
                 }
             }}
-            style={{ paddingLeft: 15, paddingRight: 15 }}
+            style={{ paddingLeft: 20, paddingRight: 20 }}
             spacing={3}
         >
-            <Grid xs={12} sm={5} md={3} justify="flex-start" alignItems="flex-start">
-                <PairingsList handleClick={handleClick} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={9} justify="center" alignItems="flex-start" style={{ height: window.innerHeight - 64, overflowY: "scroll" }} >
+            <Grid item xs={12} justify="center" alignItems="flex-start" >
                 {/* <main className={classes.contentShift}> */}
                 <Box>
                     <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>

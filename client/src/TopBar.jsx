@@ -20,10 +20,13 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import Chat from './chat/Chat'
 import { Link } from "react-router-dom"
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 import { spacing } from '@material-ui/system';
+import { Drawer } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -91,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function PrimarySearchAppBar(props) {
-
+    const [role, setRole] = useState(() => ["mentor"])
     const [inProp, setInProp] = useState(false)
     const [viewName, setViewName] = useState("");
 
@@ -103,6 +106,10 @@ export default function PrimarySearchAppBar(props) {
     const isMenuOpen = Boolean(anchorEl);
     const isDrawerOpen = Boolean(drawerAnchorEl)
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const handleRole = (event, newRole) => {
+        setRole(newRole);
+    };
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -226,9 +233,9 @@ export default function PrimarySearchAppBar(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Menu
+                    <Drawer
                         open={isDrawerOpen}
-                        anchorEl={drawerAnchorEl}
+                        anchor="left"
                         onClose={handleDrawerClose}
                         anchorOrigin={{
                             vertical: 'bottom',
@@ -239,9 +246,17 @@ export default function PrimarySearchAppBar(props) {
                             horizontal: 'left',
                         }}
                     >
-                        <MenuItem onClick={handleDrawerClose}>Mentor</MenuItem>
-                        <MenuItem onClick={handleDrawerClose}>Mentee</MenuItem>
-                    </Menu>
+                        <ToggleButtonGroup exclusive value={role} onChange={handleRole} aria-label="role" style={{padding:10, height:40, width:300}}>
+                            <ToggleButton value="mentor" aria-label="mentor">
+                                <MenuItem onClick={handleDrawerClose}>Mentor</MenuItem>
+                            </ToggleButton>
+                            <ToggleButton value="mentee" aria-label="mentee">
+                                <MenuItem onClick={handleDrawerClose}>Mentee</MenuItem>
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                        <MenuItem component={Link} to="/groupings">Groupings</MenuItem>
+                        <MenuItem component={Link} to="/dash">Events</MenuItem>
+                    </Drawer>
                     <Typography className={classes.title} variant="h6" noWrap>
                         Ascademy {viewName}
                     </Typography>
