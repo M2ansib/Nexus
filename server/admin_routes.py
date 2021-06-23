@@ -1,6 +1,7 @@
 from flask import jsonify, request, Response, session, Blueprint, send_file
 from ics import Calendar, Event
 import datetime
+import requests
 from werkzeug.security import check_password_hash, generate_password_hash
 import flask_login
 import logging
@@ -47,12 +48,12 @@ def logout():
 
 @admin_api.route('/write_to_cal', methods=['POST'])
 def write_to_cal():
-    c = Calendar('./cal.ics')
+    c = Calendar(requests.get('http://localhost:8080/api/get_cal').text)
     e = Event()
-    e.name = request.args["name"]
-    e.begin = request.args["begin"]
-    e.end = request.args["end"]
-    for attendee in request.args["attendees"]:
+    e.name = request.values["name"]
+    e.begin = request.values["begin"]
+    e.end = request.values["end"]
+    for attendee in request.values["attendees"]:
         e.add_attendee(attendee)
     c.events.add(e)
     with open('./cal.ics', 'w') as f:

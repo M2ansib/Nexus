@@ -5,6 +5,7 @@ flask-mail
 ics
 pymongo
 pymodm
+requests
 flask-cors
 flask-session
 apscheduler

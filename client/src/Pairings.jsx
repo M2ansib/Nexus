@@ -50,7 +50,7 @@ function getModalStyle() {
     };
 }
 function PairingsList(props) {
-    const { handleClick } = props
+    const { cal } = props
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [currentTime, setCurrentTime] = useState(0);
@@ -63,10 +63,10 @@ function PairingsList(props) {
     return (
         <div className={classes.paper}>
             <Box py="2rem">
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." handleClick={handleClick} email="av@gmail.com" />
+                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
             </Box>
             <Box py="2rem">
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" handleClick={handleClick} email="tch@gmail.com" />
+                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
             </Box>
         </div>
     );

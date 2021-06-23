@@ -9,6 +9,7 @@ import './index.css';
 import cyan from '@material-ui/core/colors/cyan';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Calendar } from '@fullcalendar/core';
 import Box from '@material-ui/core/Box';
 
 import {
@@ -42,6 +43,7 @@ import { Toolbar } from '@material-ui/core';
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
 import pubnubKeys from "./chat/pubnub-keys.json";
+import { calendarFormat } from 'moment';
 
 OverlayScrollbars(document.body, {
     nativeScrollbarsOverlaid: {
@@ -89,6 +91,7 @@ function Base() {
         useBorderBoxSize: true, // Tell the hook to measure based on the border-box size, default is false
         polyfill: ResizeObserver, // Use polyfill to make this feature works on more browsers
     });
+    const [cal, setCal] = useState()
 
 
     return (
@@ -109,12 +112,12 @@ function Base() {
                         <Route exact path="/dash">
                             <TopBar />
                             <Toolbar />
-                            <Dashboard />
+                            <Dashboard setCal={setCal}/>
                         </Route>
                         <Route exact path="/groupings">
                             <TopBar />
                             <Toolbar />
-                            <Pairings />
+                            <Pairings cal={cal}/>
                         </Route>
                         <Route exact path="/profile">
                             <TopBar />
