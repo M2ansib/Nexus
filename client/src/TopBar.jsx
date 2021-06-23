@@ -242,6 +242,7 @@ export default function PrimarySearchAppBar(props) {
                     <SwipeableDrawer
                         open={isDrawerOpen}
                         anchor="left"
+                        onOpen={()=>console.log("drawer open")}
                         onClose={handleDrawerClose}
                         anchorOrigin={{
                             vertical: 'bottom',
@@ -281,9 +282,13 @@ export default function PrimarySearchAppBar(props) {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 4 new mails" color="inherit" component={Link} to="/chat">
+                        <IconButton
+                            aria-label="show 4 new mails"
+                            color="inherit"
+                            component={Link}
+                            to="/chat">
                             <Badge badgeContent={4} color="secondary">
-                                <ForumIcon />
+                                <ForumIcon/>
                             </Badge>
                         </IconButton>
                         {/* <Popover

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 export default function Chat() {
     return (
-        <Grid container alignItems="center" justify="center">
+        <Grid container alignItems="center" justify="center" style={{backgroundColor:"darkseagreen", height:"100vh"}}>
             <div>chat ui</div>
             <IconButton aria-label="close" color="inherit" component={Link} to="/dash">
                 <CancelIcon />

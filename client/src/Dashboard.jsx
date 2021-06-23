@@ -60,7 +60,7 @@ export default function DashboardCards({ setCal }) {
                 right: 'dayGridMonth,timeGridWeek'
             },
             events: {
-                url: "http://localhost:8080/api/get_cal",
+                url: "http://localhost:8000/api/get_cal",
                 format: 'ics'
             },
             eventTimeFormat: {

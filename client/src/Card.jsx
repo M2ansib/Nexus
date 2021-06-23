@@ -98,12 +98,12 @@ export default function PairingCard(props) {
         fd.append("end", moment(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD HH:MM:SS"))
         fd.append("attendees", ["ria.mundhra.2019@vjc.sg","test"])
 
-        fetch("/api/write_to_cal", {
-            method: "POST",
-            body: fd
-        }).then(res=>{
-            cal?.refetchEvents()
-        })
+        // fetch("/api/write_to_cal", {
+        //     method: "POST",
+        //     body: fd
+        // }).then(res=>{
+        //     cal?.refetchEvents()
+        // })
     }
 
     return (

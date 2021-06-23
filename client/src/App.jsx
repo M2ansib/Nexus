@@ -43,7 +43,7 @@ import { Toolbar } from '@material-ui/core';
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
 import pubnubKeys from "./chat/pubnub-keys.json";
-import { calendarFormat } from 'moment';
+import { motion } from "framer-motion"
 
 OverlayScrollbars(document.body, {
     nativeScrollbarsOverlaid: {
@@ -93,6 +93,12 @@ function Base() {
     });
     const [cal, setCal] = useState()
 
+    const variants = {
+        open: { opacity: 1, scale: [0.7, 2, 1, 1] },
+        closed: { opacity: 0, scale: [2, 1, 0, 0] },
+    }
+
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -112,12 +118,12 @@ function Base() {
                         <Route exact path="/dash">
                             <TopBar />
                             <Toolbar />
-                            <Dashboard setCal={setCal}/>
+                            <Dashboard setCal={setCal} />
                         </Route>
                         <Route exact path="/groupings">
                             <TopBar />
                             <Toolbar />
-                            <Pairings cal={cal}/>
+                            <Pairings cal={cal} />
                         </Route>
                         <Route exact path="/profile">
                             <TopBar />
@@ -126,16 +132,16 @@ function Base() {
                         </Route>
                         <Route exact path="/chat">
                             {({ match }) => (
-                                <CSSTransition
-                                    in={match != null}
-                                    timeout={1000}
-                                    classNames="alert"
-                                    unmountOnExit
+                                <motion.div
+                                    // animate={match !== null ? { scale: [1, 2, 2, 1, 1], borderRadius: ["0%", "20%", "50%", "20%", "0%"] } : { scale: 0 }}
+                                    animate={match !== null ? "open" : "closed"}
+                                    variants={variants}
+                                // transition={{ duration: 0.7 }}
                                 >
                                     <>
                                         <Chat />
                                     </>
-                                </CSSTransition>
+                                </motion.div>
                             )}
                         </Route>
                         {/* <Route exact path="/login" component={Login} /> */}
@@ -152,8 +158,9 @@ function Base() {
                         <pre>samples/pubnub-keys.json</pre>
                           in order to use the app properly.
                     </div>
-                )}
-        </ThemeProvider>
+                )
+            }
+        </ThemeProvider >
     );
 }
 

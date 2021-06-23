@@ -59,13 +59,13 @@ def write_to_cal():
         print(attendee)
         e.add_attendee(attendee)
     c.events.add(e)
-    with open('./cal.ics', 'w') as f:
+    with open('cal.ics', 'w') as f:
         f.write(str(c))
     return jsonify({"OK": 200})
 
 @admin_api.route('/get_cal', methods=['GET'])
 def get_cal():
-    return send_file('cal.ics', attachment_filename="calendar.ics")
+    return send_file('cal.ics', attachment_filename="cal.ics")
 
 
 @admin_api.route('/whoami', methods=['GET'])
