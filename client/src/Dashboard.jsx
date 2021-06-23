@@ -70,7 +70,9 @@ export default function DashboardCards({ setCal }) {
             }
         });
         setCal(cal)
+        cal.refetchEvents()
         cal.render()
+        console.log(cal)
 
     }, [])
 

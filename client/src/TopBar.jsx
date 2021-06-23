@@ -22,11 +22,13 @@ import Chat from './chat/Chat'
 import { Link } from "react-router-dom"
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { useLocation } from 'react-router-dom'
 
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 import { spacing } from '@material-ui/system';
 import { Drawer } from '@material-ui/core';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -94,9 +96,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function PrimarySearchAppBar(props) {
-    const [role, setRole] = useState(() => ["mentor"])
-    const [inProp, setInProp] = useState(false)
-    const [viewName, setViewName] = useState("");
+    const loc = useLocation()
+    const [role, setRole] = useState("Mentor")
+    const [viewName, setViewName] = useState(loc.pathname === "/dash" ? "events" : loc.pathname === "/groupings" ? "groupings" : "");
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -106,6 +108,10 @@ export default function PrimarySearchAppBar(props) {
     const isMenuOpen = Boolean(anchorEl);
     const isDrawerOpen = Boolean(drawerAnchorEl)
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    useEffect(() => {
+        setViewName(loc.pathname === "/dash" ? "events" : loc.pathname === "/groupings" ? "groupings" : "")
+    }, [loc.pathname])
 
     const handleRole = (event, newRole) => {
         setRole(newRole);
@@ -233,7 +239,7 @@ export default function PrimarySearchAppBar(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Drawer
+                    <SwipeableDrawer
                         open={isDrawerOpen}
                         anchor="left"
                         onClose={handleDrawerClose}
@@ -246,19 +252,19 @@ export default function PrimarySearchAppBar(props) {
                             horizontal: 'left',
                         }}
                     >
-                        <ToggleButtonGroup exclusive value={role} onChange={handleRole} aria-label="role" style={{padding:10, height:40, width:300}}>
-                            <ToggleButton value="mentor" aria-label="mentor">
+                        <ToggleButtonGroup exclusive value={role} onChange={handleRole} aria-label="role" style={{ padding: 10, height: 40, width: 300 }}>
+                            <ToggleButton value="Mentor" aria-label="Mentor">
                                 <MenuItem onClick={handleDrawerClose}>Mentor</MenuItem>
                             </ToggleButton>
-                            <ToggleButton value="mentee" aria-label="mentee">
+                            <ToggleButton value="Mentee" aria-label="Mentee">
                                 <MenuItem onClick={handleDrawerClose}>Mentee</MenuItem>
                             </ToggleButton>
                         </ToggleButtonGroup>
-                        <MenuItem component={Link} to="/groupings">Groupings</MenuItem>
-                        <MenuItem component={Link} to="/dash">Events</MenuItem>
-                    </Drawer>
+                        <MenuItem component={Link} to="/groupings" >Groupings</MenuItem>
+                        <MenuItem component={Link} to="/dash" >Events</MenuItem>
+                    </SwipeableDrawer>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Ascademy {viewName}
+                        {role + " - Ascademy - " + viewName}
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>

@@ -5,6 +5,7 @@ import requests
 from werkzeug.security import check_password_hash, generate_password_hash
 import flask_login
 import logging
+import json
 log = logging.getLogger(__name__)
 
 admin_api = Blueprint('admin_api', __name__, url_prefix='/api')
@@ -53,7 +54,9 @@ def write_to_cal():
     e.name = request.values["name"]
     e.begin = request.values["begin"]
     e.end = request.values["end"]
-    for attendee in request.values["attendees"]:
+    print(request.values["attendees"])
+    for attendee in request.values["attendees"].split(","):
+        print(attendee)
         e.add_attendee(attendee)
     c.events.add(e)
     with open('./cal.ics', 'w') as f:
@@ -62,7 +65,7 @@ def write_to_cal():
 
 @admin_api.route('/get_cal', methods=['GET'])
 def get_cal():
-    return send_file('./cal.ics', attachment_filename="cal.ics")
+    return send_file('cal.ics', attachment_filename="calendar.ics")
 
 
 @admin_api.route('/whoami', methods=['GET'])
