@@ -54,6 +54,7 @@ export default function DashboardCards({ setCal }) {
         let cal = new Calendar(calendarEl.current, {
             plugins: [dayGridPlugin, timeGridPlugin, iCalendarPlugin],
             initialView: 'dayGridMonth',
+            nowIndicator: true,
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -66,7 +67,7 @@ export default function DashboardCards({ setCal }) {
             eventTimeFormat: {
                 hour: 'numeric',
                 minute: '2-digit',
-                meridiem: 'short'
+                meridiem: 'long'
             }
         });
         setCal(cal)
@@ -95,7 +96,7 @@ export default function DashboardCards({ setCal }) {
                     <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
                     <br />
                     <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
-                    <div ref={calendarEl}></div>
+                    <div ref={calendarEl} style={{ marginLeft: 20, marginRight: 20 }}></div>
                 </Box>
                 {/* </main> */}
             </Grid>

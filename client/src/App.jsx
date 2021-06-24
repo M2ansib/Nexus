@@ -43,7 +43,7 @@ import { Toolbar } from '@material-ui/core';
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
 import pubnubKeys from "./chat/pubnub-keys.json";
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 
 OverlayScrollbars(document.body, {
     nativeScrollbarsOverlaid: {
@@ -86,19 +86,51 @@ const pubnub = new PubNub({
     suppressLeaveEvents: true
 });
 
+
+const SwitchComponent = () => {
+    const [cal, setCal] = useState()
+    const location = useLocation();
+
+    return (
+        <AnimatePresence>
+            <Switch location={location} key={location.pathname}>
+                <Route exact path="/">
+                    {/* <TopBar/>
+        <div style={{"paddingBottom":"2.5em",}}></div> */}
+                    <Login />
+                </Route>
+                <Route exact path="/register">
+                    <Register />
+                </Route>
+                <Route exact path="/dash">
+                    <TopBar />
+                    <Toolbar />
+                    <Dashboard setCal={setCal} />
+                </Route>
+                <Route exact path="/groupings">
+                    <TopBar />
+                    <Toolbar />
+                    <Pairings cal={cal} />
+                </Route>
+                <Route exact path="/profile">
+                    <TopBar />
+                    <Toolbar />
+                    <Profile />
+                </Route>
+                <Route exact path="/chat">
+                    <Chat />
+                </Route>
+                {/* <Route exact path="/login" component={Login} /> */}
+            </Switch>
+        </AnimatePresence>
+    )
+}
+
 function Base() {
     const { observe, width, height } = useDimensions({
         useBorderBoxSize: true, // Tell the hook to measure based on the border-box size, default is false
         polyfill: ResizeObserver, // Use polyfill to make this feature works on more browsers
     });
-    const [cal, setCal] = useState()
-
-    const variants = {
-        open: { opacity: 1, scale: [0.7, 2, 1, 1] },
-        closed: { opacity: 0, scale: [2, 1, 0, 0] },
-    }
-
-
 
     return (
         <ThemeProvider theme={theme}>
@@ -106,48 +138,8 @@ function Base() {
             {pubnubKeys.publishKey.length && pubnubKeys.subscribeKey.length ? (
                 <PubNubProvider client={pubnub}>
                     <BrowserRouter>
-                        {/* <Switch> */}
-                        <Route exact path="/">
-                            {/* <TopBar/>
-            <div style={{"paddingBottom":"2.5em",}}></div> */}
-                            <Login />
-                        </Route>
-                        <Route exact path="/register">
-                            <Register />
-                        </Route>
-                        <Route exact path="/dash">
-                            <TopBar />
-                            <Toolbar />
-                            <Dashboard setCal={setCal} />
-                        </Route>
-                        <Route exact path="/groupings">
-                            <TopBar />
-                            <Toolbar />
-                            <Pairings cal={cal} />
-                        </Route>
-                        <Route exact path="/profile">
-                            <TopBar />
-                            <Toolbar />
-                            <Profile />
-                        </Route>
-                        <Route exact path="/chat">
-                            {({ match }) => (
-                                <motion.div
-                                    // animate={match !== null ? { scale: [1, 2, 2, 1, 1], borderRadius: ["0%", "20%", "50%", "20%", "0%"] } : { scale: 0 }}
-                                    animate={match !== null ? "open" : "closed"}
-                                    variants={variants}
-                                // transition={{ duration: 0.7 }}
-                                >
-                                    <>
-                                        <Chat />
-                                    </>
-                                </motion.div>
-                            )}
-                        </Route>
-                        {/* <Route exact path="/login" component={Login} /> */}
-                        {/* </Switch> */}
+                        <SwitchComponent />
                     </BrowserRouter>
-
                 </PubNubProvider>
             ) : (
                     <div className="pubnub-error">
