@@ -1,5 +1,5 @@
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
-import React, {useState, useEffect} from 'react';
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+import React, { useState, useEffect } from 'react';
 // import {fetch} from 'xhr';
 // import PropTypes from 'prop-types';
 
@@ -14,11 +14,12 @@ export default function Mosaic(props) {
     //     .then(data => setItems(data))
     // }, [])
 
+
     return (
         <ResponsiveMasonry className="mosaic-container"
-            columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
+            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
         >
-            <Masonry className="masonry" gutter="1rem" style={{alignItems: "flex-start", paddingY: "2rem"}}>
+            <Masonry className="masonry" gutter="1rem" style={{ alignItems: "flex-start", paddingY: "2rem" }}>
                 {props.children}
             </Masonry>
         </ResponsiveMasonry>

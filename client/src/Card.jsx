@@ -20,6 +20,7 @@ import Modal from '@material-ui/core/Modal';
 import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import moment, { calendarFormat } from 'moment';
+import { motion } from "framer-motion"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -96,83 +97,92 @@ export default function PairingCard(props) {
         fd.append("name", document.getElementById("summaryRef").value)
         fd.append("begin", moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
         fd.append("end", moment.utc(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD hh:mm:ss"))
-        fd.append("attendees", ["ria.mundhra.2019@vjc.sg","test"])
+        fd.append("attendees", ["ria.mundhra.2019@vjc.sg", "test"])
 
         fetch("/api/write_to_cal", {
             method: "POST",
             body: fd
-        }).then(res=>{
+        }).then(res => {
             cal?.refetchEvents()
         })
     }
 
+    const transition = { duration: 0.5, ease: "easeInOut" };
+    const postPreviewVariants = {
+        initial: { x: "100%", opacity: 0 },
+        enter: { x: 0, opacity: 1, transition },
+        exit: { x: "-100%", opacity: 0, transition }
+    };
+
     return (
         <>
-            <Card className={classes.root} elevation={5}>
-                <CardHeader
-                    avatar={
-                        <Avatar ref={inputAvatar} aria-label="recipe" className={classes.avatar}>
-                            {initials}
-                        </Avatar>
-                    }
-                    title={name}
-                />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        School: {school}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Subjects Offered: {subjects}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Remarks: {remarks}
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton
-                        className={clsx(classes.expand, {
-                            [classes.expandOpen]: expanded,
-                        })}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                        <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <motion.div variants={postPreviewVariants}>
+                <Card className={classes.root} elevation={5}>
+                    <CardHeader
+                        avatar={
+                            <Avatar ref={inputAvatar} aria-label="recipe" className={classes.avatar}>
+                                {initials}
+                            </Avatar>
+                        }
+                        title={name}
+                    />
                     <CardContent>
-                        <ButtonGroup fullWidth='true' orientation="vertical" display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">
-                            <Button onClick={() => { setOpen(open => !open) }}>Schedule Appointment</Button>
-                            <Button className="join" ref={joinButton} onClick={joinClick}>Message</Button>
-                            <Button>Unpair</Button>
-                            <Button>Report</Button>
-                        </ButtonGroup>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            School: {school}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            Subjects Offered: {subjects}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            Remarks: {remarks}
+                        </Typography>
                     </CardContent>
-                </Collapse>
-            </Card>
-            <Modal
-                open={open}
-                onClose={() => { setOpen(open => !open) }}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-            >
-                <div style={modalStyle} className={classes.modal}>
-                    <h2>Event Details</h2>
-                    <form onSubmit={createEvent} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
-                        <FormControl style={{ width: 350 }}>
-                            <Input id="summaryRef" aria-describedby="my-helper-text" placeholder="event title" />
-                        </FormControl>
-                        <FormControl style={{ width: 350 }}>
-                            <Input id="startTime" aria-describedby="my-helper-text" placeholder="start time" type="datetime-local" />
-                        </FormControl>
-                        <FormControl style={{ width: 350 }}>
-                            <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
-                        </FormControl>
-                        <Button type="submit">Confirm</Button>
-                    </form>
-                </div>
-            </Modal>
+                    <CardActions disableSpacing>
+                        <IconButton
+                            className={clsx(classes.expand, {
+                                [classes.expandOpen]: expanded,
+                            })}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                            <ExpandMoreIcon />
+                        </IconButton>
+                    </CardActions>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <CardContent>
+                            <ButtonGroup fullWidth='true' orientation="vertical" display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">
+                                <Button onClick={() => { setOpen(open => !open) }}>Schedule Appointment</Button>
+                                <Button className="join" ref={joinButton} onClick={joinClick}>Message</Button>
+                                <Button>Unpair</Button>
+                                <Button>Report</Button>
+                            </ButtonGroup>
+                        </CardContent>
+                    </Collapse>
+                </Card>
+                <Modal
+                    open={open}
+                    onClose={() => { setOpen(open => !open) }}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    <div style={modalStyle} className={classes.modal}>
+                        <h2>Event Details</h2>
+                        <form onSubmit={createEvent} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
+                            <FormControl style={{ width: 350 }}>
+                                <Input id="summaryRef" aria-describedby="my-helper-text" placeholder="event title" />
+                            </FormControl>
+                            <FormControl style={{ width: 350 }}>
+                                <Input id="startTime" aria-describedby="my-helper-text" placeholder="start time" type="datetime-local" />
+                            </FormControl>
+                            <FormControl style={{ width: 350 }}>
+                                <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
+                            </FormControl>
+                            <Button type="submit">Confirm</Button>
+                        </form>
+                    </div>
+                </Modal>
+            </motion.div>
         </>
     );
 }

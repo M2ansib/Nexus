@@ -92,7 +92,7 @@ const SwitchComponent = () => {
     const location = useLocation();
 
     return (
-        <AnimatePresence>
+        <AnimatePresence exitBeforeEnter initial={false}>
             <Switch location={location} key={location.pathname}>
                 <Route exact path="/">
                     {/* <TopBar/>

@@ -18,6 +18,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import iCalendarPlugin from '@fullcalendar/icalendar'
+import { motion } from "framer-motion"
 // import calEvents from './calendar/cal.ics'
 
 const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
@@ -77,29 +78,42 @@ export default function DashboardCards({ setCal }) {
 
     }, [])
 
+    const variants = {
+        initial: { opacity: 0},
+        open: { opacity: 1 },
+        closed: { opacity: 0 },
+    }
     return (
-        <Grid
-            container
-            direction="row"
-            ref={(el) => {
-                if (el) {
-                    el.style.setProperty('align-items', "center", 'important');
-                    el.style.setProperty('justify-content', "center", 'important');
-                }
-            }}
-            style={{ paddingLeft: 20, paddingRight: 20 }}
-            spacing={3}
+        <motion.div
+            initial="initial"
+            animate="open"
+            exit="closed"
+            variants={variants}
+            transition={{duration:0.3}}
         >
-            <Grid item xs={12} justify="center" alignItems="flex-start" >
-                {/* <main className={classes.contentShift}> */}
-                <Box>
-                    <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
-                    <br />
-                    <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
-                    <div ref={calendarEl} style={{ marginLeft: 20, marginRight: 20 }}></div>
-                </Box>
-                {/* </main> */}
+            <Grid
+                container
+                direction="row"
+                ref={(el) => {
+                    if (el) {
+                        el.style.setProperty('align-items', "center", 'important');
+                        el.style.setProperty('justify-content', "center", 'important');
+                    }
+                }}
+                style={{ paddingLeft: 20, paddingRight: 20 }}
+                spacing={3}
+            >
+                <Grid item xs={12} justify="center" alignItems="flex-start" >
+                    {/* <main className={classes.contentShift}> */}
+                    <Box>
+                        <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
+                        <br />
+                        <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
+                        <div ref={calendarEl} style={{ marginLeft: 20, marginRight: 20 }}></div>
+                    </Box>
+                    {/* </main> */}
+                </Grid>
             </Grid>
-        </Grid>
+        </motion.div>
     )
 }
