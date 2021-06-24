@@ -92,18 +92,18 @@ export default function PairingCard(props) {
     const createEvent = (e) => {
         e.preventDefault()
         let fd = new FormData()
-        console.log(new Date(document.getElementById("endTime").value))
+        console.log(moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
         fd.append("name", document.getElementById("summaryRef").value)
-        fd.append("begin", moment(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD HH:MM:SS"))
-        fd.append("end", moment(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD HH:MM:SS"))
+        fd.append("begin", moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
+        fd.append("end", moment.utc(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD hh:mm:ss"))
         fd.append("attendees", ["ria.mundhra.2019@vjc.sg","test"])
 
-        // fetch("/api/write_to_cal", {
-        //     method: "POST",
-        //     body: fd
-        // }).then(res=>{
-        //     cal?.refetchEvents()
-        // })
+        fetch("/api/write_to_cal", {
+            method: "POST",
+            body: fd
+        }).then(res=>{
+            cal?.refetchEvents()
+        })
     }
 
     return (
