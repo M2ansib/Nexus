@@ -15,6 +15,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar } from '@material-ui/core';
 import MosaicContainer from './MosaicContainer';
+import {motion} from 'framer-motion';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,6 +63,12 @@ function PairingsList(props) {
         });
     }, []);
     return (
+        <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
         <div className={classes.paper}>
 
             <MosaicContainer>
@@ -79,6 +86,7 @@ function PairingsList(props) {
                 <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
             </MosaicContainer>
         </div>
+        </motion.div>
     );
 }
 

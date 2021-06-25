@@ -19,6 +19,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import iCalendarPlugin from '@fullcalendar/icalendar'
 // import calEvents from './calendar/cal.ics'
+import {motion} from 'framer-motion';
 
 const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
 
@@ -77,6 +78,12 @@ export default function DashboardCards({ setCal }) {
     }, [])
 
     return (
+        <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
         <Grid
             container
             direction="row"
@@ -100,5 +107,6 @@ export default function DashboardCards({ setCal }) {
                 {/* </main> */}
             </Grid>
         </Grid>
+        </motion.div>
     )
 }

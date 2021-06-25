@@ -22,7 +22,7 @@ import Chat from './chat/Chat'
 import { Link } from "react-router-dom"
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
@@ -42,10 +42,11 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
+        textTransform: 'capitalize'
     },
     search: {
         position: 'relative',
-        borderRadius: theme.shape.borderRadius,
+        borderRadius: 64,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
             backgroundColor: fade(theme.palette.common.white, 0.25),
@@ -97,6 +98,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props) {
     const loc = useLocation()
+    
+    if (props.excludes) 
+        if (props.excludes.includes(loc.pathname)) return null;
+
     const [role, setRole] = useState("Mentor")
     const [viewName, setViewName] = useState(loc.pathname === "/dash" ? "events" : loc.pathname === "/groupings" ? "groupings" : "");
 
@@ -114,7 +119,7 @@ export default function PrimarySearchAppBar(props) {
     }, [loc.pathname])
 
     const handleRole = (event, newRole) => {
-        setRole(newRole);
+        if (newRole) setRole(newRole);
     };
 
     const handleProfileMenuOpen = (event) => {
@@ -261,8 +266,8 @@ export default function PrimarySearchAppBar(props) {
                                 <MenuItem onClick={handleDrawerClose}>Mentee</MenuItem>
                             </ToggleButton>
                         </ToggleButtonGroup>
-                        <MenuItem component={Link} to="/groupings" >Groupings</MenuItem>
-                        <MenuItem component={Link} to="/dash" >Events</MenuItem>
+                        <MenuItem component={Link} onClick={handleDrawerClose} to="/groupings" >Groupings</MenuItem>
+                        <MenuItem component={Link} onClick={handleDrawerClose} to="/dash" >Events</MenuItem>
                     </SwipeableDrawer>
                     <Typography className={classes.title} variant="h6" noWrap>
                         {role + " - Ascademy - " + viewName}

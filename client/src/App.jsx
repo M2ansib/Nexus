@@ -38,12 +38,13 @@ import Dashboard from './Dashboard';
 import Profile from './Profile'
 import Chat from './Chat'
 import Pairings from './Pairings'
-import { Toolbar } from '@material-ui/core';
+import Toolbar from './wrappers/Toolbar';
 
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
 import pubnubKeys from "./chat/pubnub-keys.json";
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
+import GradientCanvas from './wrappers/GradientCanvas';
 
 OverlayScrollbars(document.body, {
     nativeScrollbarsOverlaid: {
@@ -105,8 +106,12 @@ function Base() {
             <CssBaseline />
             {pubnubKeys.publishKey.length && pubnubKeys.subscribeKey.length ? (
                 <PubNubProvider client={pubnub}>
+                    <AnimatePresence exitBeforeEnter initial={false}>
                     <BrowserRouter>
-                        {/* <Switch> */}
+                    <GradientCanvas includes={['/', '/register']} />
+                    <TopBar excludes={['/', '/chat', '/register']} />
+                    <Toolbar excludes={['/', '/chat', '/register']} />
+                    <Switch location={location} key={location.pathname}>
                         <Route exact path="/">
                             {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
@@ -116,25 +121,20 @@ function Base() {
                             <Register />
                         </Route>
                         <Route exact path="/dash">
-                            <TopBar />
-                            <Toolbar />
                             <Dashboard setCal={setCal} />
                         </Route>
                         <Route exact path="/groupings">
-                            <TopBar />
-                            <Toolbar />
                             <Pairings cal={cal} />
                         </Route>
                         <Route exact path="/profile">
-                            <TopBar />
-                            <Toolbar />
                             <Profile />
                         </Route>
                         <Route exact path="/chat">
                             {({ match }) => (
                                 <motion.div
+                                    initial="closed"
                                     // animate={match !== null ? { scale: [1, 2, 2, 1, 1], borderRadius: ["0%", "20%", "50%", "20%", "0%"] } : { scale: 0 }}
-                                    animate={match !== null ? "open" : "closed"}
+                                    animate={match ? "open" : "closed"}
                                     variants={variants}
                                 // transition={{ duration: 0.7 }}
                                 >
@@ -145,8 +145,9 @@ function Base() {
                             )}
                         </Route>
                         {/* <Route exact path="/login" component={Login} /> */}
-                        {/* </Switch> */}
+                        </Switch>
                     </BrowserRouter>
+                    </AnimatePresence>
 
                 </PubNubProvider>
             ) : (

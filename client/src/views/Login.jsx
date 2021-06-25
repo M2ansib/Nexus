@@ -27,6 +27,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {AnimatePresence, motion} from 'framer-motion';
+
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/CreateTwoTone';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,6 +40,16 @@ const useStyles = makeStyles((theme) => ({
         width: '35ch',
       },
     },
+    fab: {
+        zIndex: 100,
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+        fontWeight: 500
+    },
+    extendedIcon: {
+        marginRight: theme.spacing(1),
+    }
   }));
 
 export default function LandingPageComponent() {
@@ -61,24 +76,27 @@ export default function LandingPageComponent() {
         fetch('/api/time').then(res => res.json()).then(data => {
             setCurrentTime(data.time);
         });
-        var gradient = new Gradient();
-        gradient.initGradient("#gradient-canvas");
     }, []);
 
     return (
+        <AnimatePresence exitBeforeEnter>
+        <motion.div
+        initial={{ scale: 0, opacity:0 }}
+        animate={{ scale: 1, opacity:1 }}
+        exit={{ scaleY: 0, opacity:0 }}
+        transition={{ duration: 0.5 }}
+        >
         <div>
-            {/* <Box mx="2rem" py="2rem">
-                <p>{currentTime}</p>
-                <Card/>
-            </Box> */}
-            <canvas id="gradient-canvas" data-js-darken-top data-transition-in style={{"width":"100%", height:"100%", position:"fixed"}}>
-            {/* <!--
-                Remove data-js-darken-top to keep the same brightness in the upper part of the canvas
-            --> */}
-            </canvas>
+            {/* <canvas id="gradient-canvas" data-js-darken-top data-transition-in style={{"width":"100%", height:"100%", position:"fixed"}}>
+            </canvas> */}
+            
             <Box display="flex" justifyContent="center" alignItems="center" position="fixed" width="100vw" height="100vh">
+                <Fab variant="extended" color="primary" aria-label="register" className={classes.fab} component={Link} to="/register">
+                    <AddIcon className={classes.extendedIcon} />
+                    Register
+                </Fab>
                 <Paper elevation={3} className="blur-behind" style={{"borderRadius":"8px", "backgroundColor": "rgba(200,200,200,0.75)", padding:"1em"}}>
-                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", paddingRight:".5em", overflowX:'hidden'}}>Welcome to Ascademy!</h1>
+                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", overflowX:'hidden'}}>Welcome to Ascademy!</h1>
                     <form className={classes.root} noValidate autoComplete="off">
                     <TextField id="outlined-basic" required label="ID" variant="outlined" width="100%" color="secondary" />
                     <br/>
@@ -123,5 +141,7 @@ export default function LandingPageComponent() {
                 </Paper>
             </Box>
         </div>
+        </motion.div>
+        </AnimatePresence>
     );
 }

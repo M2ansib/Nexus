@@ -1,10 +1,10 @@
 {
     "python.terminal.activateEnvInCurrentTerminal": true,
-    "python.venvPath": "${workspaceFolder}${pathSeparator}.venv",
     "[python]": {
 
         "gitlens.codeLens.symbolScopes": [
             "!Module"
         ]
-    }
+    },
+    "python.pythonPath": "server/.venv/bin/python"
 }

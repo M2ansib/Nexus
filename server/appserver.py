@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, Response, session, redirect, url_for, make_response
-import flask_login
+# import flask_login
 import logging
 import os
 from datetime import timedelta
@@ -7,15 +7,16 @@ from datetime import timedelta
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
+
 # import dbutils as db
-from admin_routes import admin_api, User, db_api
+from admin_routes import admin_api, db_api
 # from db_routes import db_api
 
-from flask_session import Session
+# from flask_session import Session
 from flask_mail import Mail
 from flask_cors import CORS, cross_origin
 
-from Schema import *
+import Schema
 
 
 fmt = "[%(asctime)s]|%(levelname)s|[%(module)s]:%(funcName)s()|%(message)s"
@@ -34,9 +35,9 @@ app.register_blueprint(db_api)
 mail = Mail()
 mail.init_app(app)
 
-SESSION_TYPE = 'filesystem'
+# SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
-Session(app)
+# Session(app)
 CORS(app)
 
 limiter = Limiter(
@@ -45,8 +46,8 @@ limiter = Limiter(
     default_limits=["200 per day", "50 per hour"]
 )
 
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
+# login_manager = flask_login.LoginManager()
+# login_manager.init_app(app)
 
 app.config.update(
     SECRET_KEY=os.urandom(16),
@@ -65,17 +66,6 @@ def ratelimit_handler(e):
         jsonify(error=f"Rate limit exceeded: {e.description}")
         , 429
     )
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User(user_id)
-
-
-@login_manager.unauthorized_handler
-def unauthorized_callback():
-    log.warning(f"UNAUTHORIZED [{request.method}] {request.full_path}")
-    return Response("UNAUTHORIZED", 401)
 
 
 @app.errorhandler(404)

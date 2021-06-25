@@ -3,19 +3,36 @@ from ics import Calendar, Event
 import datetime
 import requests
 from werkzeug.security import check_password_hash, generate_password_hash
-import flask_login
 import logging
 import json
+import Schema
+
 log = logging.getLogger(__name__)
 
 admin_api = Blueprint('admin_api', __name__, url_prefix='/api')
 db_api = Blueprint('db_api', __name__, url_prefix='/db_api')
 
-class User(flask_login.UserMixin):
-    def __init__(self, userid):
-        self.id = userid
-
 from appserver import limiter
+
+Schema.EstablishConnection()
+
+def ValidateCredentials(username, password):
+    try:
+        return Schema.User.objects.raw({"_id": username}).first().password == password
+    except:
+        return False
+
+@admin_api.route('/logged_in')
+def LoggedIn():
+    try:
+        return session['logged_in']
+    except KeyError:
+        return False
+
+# @db_api.route('/<collection>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
+# def unified_endpoint(collection):
+#     if request.method == "GET":
+#         return jsonify(data = eval(f"Schema.{collection.capitalize()}").objects.all())
 
 @admin_api.route('/login', methods=['POST'])
 def login():
@@ -24,13 +41,12 @@ def login():
     username = record.pop('username', "")
     username = username.lower()
 
-    if validateLogin(username, pwd):
-        flask_login.login_user(User(username))
+    if ValidateCredentials(username, pwd):
+        session['logged_in'] = True
         session.permanent = True
         return jsonify({"OK": 200})
     else:
         log.warning(f"Failed login attempt for user '{username}'")
-        flask_login.logout_user()
         return Response(jsonify({"UNAUTHORIZED": 401}), 401)
 
 
@@ -41,9 +57,9 @@ def validateLogin(user, pwd):
 
 
 @admin_api.route('/logout', methods=['GET'])
-@flask_login.login_required
 def logout():
-    flask_login.logout_user()
+    session.pop("logged_in", None)
+    session.pop("username", None)
     return jsonify({"OK": 200})
 
 
@@ -67,23 +83,9 @@ def write_to_cal():
 def get_cal():
     return send_file('cal.ics', attachment_filename="cal.ics")
 
-
-@admin_api.route('/whoami', methods=['GET'])
-@flask_login.login_required
-def getUser():
-    user = ''
-    if flask_login.current_user.is_authenticated:
-        user = flask_login.current_user.get_id()
-    return jsonify({'success': {'user': user}})
-
 import time
 @admin_api.route('/time')
 @limiter.exempt
 def get_current_time():
     return {'time': time.time()}
 
-
-@admin_api.route('/ping', methods=['GET'])
-@flask_login.login_required
-def keepAlive():
-    return jsonify({"OK": 200})

@@ -21,6 +21,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
+import {AnimatePresence, motion} from 'framer-motion';
+
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/LockOpenTwoTone';
+import {Link} from 'react-router-dom';
+
+import { Container } from '@material-ui/core';
+
 import twemoji from 'twemoji'
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +38,16 @@ const useStyles = makeStyles((theme) => ({
             width: '35ch',
         },
     },
+    fab: {
+        zIndex: 100,
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+        fontWeight: 500
+    },
+    extendedIcon: {
+        marginRight: theme.spacing(1),
+    }
 }));
 function getEmojiString(countryCode) {
     const codePoints = countryCode
@@ -63,25 +81,39 @@ export default function LandingPageComponent() {
     };
 
     useEffect(() => {
-        fetch('/api/time').then(res => res.json()).then(data => {
-            setCurrentTime(data.time);
+        OverlayScrollbars(document.body, {
+            nativeScrollbarsOverlaid: {
+                initialize: true
+            },
+            scrollbars: {
+                autoHide: "move",
+            }
         });
-        var gradient = new Gradient();
-        gradient.initGradient("#gradient-canvas");
+        // fetch('/api/time').then(res => res.json()).then(data => {
+        //     setCurrentTime(data.time);
+        // });
+        // var gradient = new Gradient();
+        // gradient.initGradient("#gradient-canvas");
     }, []);
 
     return (
+        <AnimatePresence>
+        <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ duration: .5 }}
+            >
         <div>
-            <canvas id="gradient-canvas" data-js-darken-top data-transition-in style={{ "width": "100%", height: "100%", position: "fixed" }}>
-                {/* <!--
-                Remove data-js-darken-top to keep the same brightness in the upper part of the canvas
-            --> */}
-            </canvas>
             <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "fixed", width: "100vw", height: "100vh" }}>
+                <Fab variant="extended" color="primary" aria-label="register" className={classes.fab} component={Link} to="/">
+                    <AddIcon className={classes.extendedIcon} />
+                    Sign In
+                </Fab>
                 <Paper elevation={3} className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)", padding: "1em" }}>
-                    <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", paddingRight: ".5em", overflowX: 'hidden' }}>Welcome to Ascademy!</h1>
-                    <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                        <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                    <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", overflowX: 'hidden' }}>Welcome to Ascademy!</h1>
+                    <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))"  }}>
+                        <FormControl required variant="outlined" style={{ width: "100%", marginLeft:"10vw", marginRight:"10vw", height:"fit-content" }}>
                             <InputLabel>ID</InputLabel>
                             <OutlinedInput
                                 type="text"
@@ -169,10 +201,16 @@ export default function LandingPageComponent() {
                             )}
                         />
                         <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden", margin:10 }}>
+                        <ButtonGroup size="large" aria-label="large outlined primary button group" style={{"overflowX":"hidden"}}>
                                 <Button>
-                                    <LockOpenRoundedIcon />
-                                            Register
+                                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                                    <Grid item style={{display:"flex"}}>
+                                        <LockOpenRoundedIcon />
+                                    </Grid>
+                                    <Grid item>
+                                        Register
+                                    </Grid>
+                                </Grid>
                                 </Button>
                             </ButtonGroup>
                         </Box>
@@ -180,6 +218,8 @@ export default function LandingPageComponent() {
                 </Paper>
             </Box>
         </div>
+        </motion.div>
+        </AnimatePresence>
     );
 }
 
