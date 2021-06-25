@@ -132,6 +132,7 @@ function Base() {
         useBorderBoxSize: true, // Tell the hook to measure based on the border-box size, default is false
         polyfill: ResizeObserver, // Use polyfill to make this feature works on more browsers
     });
+    const [cal, setCal] = useState()
 
     return (
         <ThemeProvider theme={theme}>
@@ -139,46 +140,46 @@ function Base() {
             {pubnubKeys.publishKey.length && pubnubKeys.subscribeKey.length ? (
                 <PubNubProvider client={pubnub}>
                     <AnimatePresence exitBeforeEnter initial={false}>
-                    <BrowserRouter>
-                    <GradientCanvas includes={['/', '/register']} />
-                    <TopBar excludes={['/', '/chat', '/register']} />
-                    <Toolbar excludes={['/', '/chat', '/register']} />
-                    <Switch location={location} key={location.pathname}>
-                        <Route exact path="/">
-                            {/* <TopBar/>
+                        <BrowserRouter>
+                            <GradientCanvas includes={['/', '/register']} />
+                            <TopBar excludes={['/', '/chat', '/register']} />
+                            <Toolbar excludes={['/', '/chat', '/register']} />
+                            <Switch location={location} key={location.pathname}>
+                                <Route exact path="/">
+                                    {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
-                            <Login />
-                        </Route>
-                        <Route exact path="/register">
-                            <Register />
-                        </Route>
-                        <Route exact path="/dash">
-                            <Dashboard setCal={setCal} />
-                        </Route>
-                        <Route exact path="/groupings">
-                            <Pairings cal={cal} />
-                        </Route>
-                        <Route exact path="/profile">
-                            <Profile />
-                        </Route>
-                        <Route exact path="/chat">
-                            {({ match }) => (
-                                <motion.div
-                                    initial="closed"
-                                    // animate={match !== null ? { scale: [1, 2, 2, 1, 1], borderRadius: ["0%", "20%", "50%", "20%", "0%"] } : { scale: 0 }}
-                                    animate={match ? "open" : "closed"}
-                                    variants={variants}
-                                // transition={{ duration: 0.7 }}
-                                >
-                                    <>
-                                        <Chat />
-                                    </>
-                                </motion.div>
-                            )}
-                        </Route>
-                        {/* <Route exact path="/login" component={Login} /> */}
-                        </Switch>
-                    </BrowserRouter>
+                                    <Login />
+                                </Route>
+                                <Route exact path="/register">
+                                    <Register />
+                                </Route>
+                                <Route exact path="/dash">
+                                    <Dashboard setCal={setCal} />
+                                </Route>
+                                <Route exact path="/groupings">
+                                    <Pairings cal={cal} />
+                                </Route>
+                                <Route exact path="/profile">
+                                    <Profile />
+                                </Route>
+                                <Route exact path="/chat">
+                                    {({ match }) => (
+                                        <motion.div
+                                            initial="closed"
+                                            // animate={match !== null ? { scale: [1, 2, 2, 1, 1], borderRadius: ["0%", "20%", "50%", "20%", "0%"] } : { scale: 0 }}
+                                            animate={match ? "open" : "closed"}
+                                            variants={variants}
+                                        // transition={{ duration: 0.7 }}
+                                        >
+                                            <>
+                                                <Chat />
+                                            </>
+                                        </motion.div>
+                                    )}
+                                </Route>
+                                {/* <Route exact path="/login" component={Login} /> */}
+                            </Switch>
+                        </BrowserRouter>
                     </AnimatePresence>
 
                 </PubNubProvider>

@@ -15,11 +15,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar } from '@material-ui/core';
 import MosaicContainer from './MosaicContainer';
-<<<<<<< HEAD
-import { motion } from "framer-motion"
-=======
-import {motion} from 'framer-motion';
->>>>>>> e03a75633b86103313411b1a66adf7d644582e67
+import { motion } from 'framer-motion';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -79,12 +75,10 @@ function PairingsList(props) {
     }, []);
     return (
         <motion.div
-<<<<<<< HEAD
-            initial="initial"
-            animate="open"
-            exit="closed"
-            variants={variants}
-            transition={{ duration: 0.1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
         >
             <div className={classes.paper}>
                 <motion.div
@@ -94,6 +88,7 @@ function PairingsList(props) {
                     exit="exit"
                     variants={blogVariants}
                 >
+
                     <MosaicContainer>
                         <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
                         <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
@@ -110,30 +105,6 @@ function PairingsList(props) {
                     </MosaicContainer>
                 </motion.div>
             </div>
-=======
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-        <div className={classes.paper}>
-
-            <MosaicContainer>
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-            </MosaicContainer>
-        </div>
->>>>>>> e03a75633b86103313411b1a66adf7d644582e67
         </motion.div>
     );
 }
