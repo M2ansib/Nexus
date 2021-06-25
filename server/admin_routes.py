@@ -65,7 +65,7 @@ def write_to_cal():
 
 @admin_api.route('/get_cal', methods=['GET'])
 def get_cal():
-    return send_file('cal.ics', attachment_filename="cal.ics")
+    return send_file('cal.ics', attachment_filename="cal.ics", cache_timeout=0)
 
 
 @admin_api.route('/whoami', methods=['GET'])
