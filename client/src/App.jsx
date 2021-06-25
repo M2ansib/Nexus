@@ -37,6 +37,8 @@ import Register from './views/Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile'
 import Chat from './Chat'
+import MentorRegister from './views/MentorRegistration'
+import MenteeRegister from './views/MenteeRegistration'
 import Pairings from './Pairings'
 import Toolbar from './wrappers/Toolbar';
 
@@ -141,9 +143,9 @@ function Base() {
                 <PubNubProvider client={pubnub}>
                     <AnimatePresence exitBeforeEnter initial={false}>
                         <BrowserRouter>
-                            <GradientCanvas includes={['/', '/register']} />
-                            <TopBar excludes={['/', '/chat', '/register']} />
-                            <Toolbar excludes={['/', '/chat', '/register']} />
+                            <GradientCanvas includes={['/', '/register', '/mentor_register', '/mentee_register']} />
+                            <TopBar excludes={['/', '/chat', '/register', '/mentor_register', '/mentee_register']} />
+                            <Toolbar excludes={['/', '/chat', '/register', '/mentor_register', '/mentee_register']} />
                             <Switch location={location} key={location.pathname}>
                                 <Route exact path="/">
                                     {/* <TopBar/>
@@ -152,6 +154,12 @@ function Base() {
                                 </Route>
                                 <Route exact path="/register">
                                     <Register />
+                                </Route>
+                                <Route exact path="/mentor_register">
+                                    <MentorRegister />
+                                </Route>
+                                <Route exact path="/mentee_register">
+                                    <MenteeRegister />
                                 </Route>
                                 <Route exact path="/dash">
                                     <Dashboard setCal={setCal} />
