@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
     const loc = useLocation()
     const [role, setRole] = useState("Mentor")
-    const [viewName, setViewName] = useState(loc.pathname === "/dash" ? "events" : loc.pathname === "/groupings" ? "groupings" : "");
+    const [viewName, setViewName] = useState(loc.pathname === "/dash" ? "events" : loc.pathname.slice(1));
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -110,7 +110,7 @@ export default function PrimarySearchAppBar(props) {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     useEffect(() => {
-        setViewName(loc.pathname === "/dash" ? "events" : loc.pathname === "/groupings" ? "groupings" : "")
+        setViewName(loc.pathname === "/dash" ? "events" : loc.pathname.slice(1))
     }, [loc.pathname])
 
     const handleRole = (event, newRole) => {
@@ -242,7 +242,7 @@ export default function PrimarySearchAppBar(props) {
                     <SwipeableDrawer
                         open={isDrawerOpen}
                         anchor="left"
-                        onOpen={()=>console.log("drawer open")}
+                        onOpen={() => console.log("drawer open")}
                         onClose={handleDrawerClose}
                         anchorOrigin={{
                             vertical: 'bottom',
@@ -288,7 +288,7 @@ export default function PrimarySearchAppBar(props) {
                             component={Link}
                             to="/chat">
                             <Badge badgeContent={4} color="secondary">
-                                <ForumIcon/>
+                                <ForumIcon />
                             </Badge>
                         </IconButton>
                         {/* <Popover

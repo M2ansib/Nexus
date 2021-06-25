@@ -104,6 +104,7 @@ export default function PairingCard(props) {
             body: fd
         }).then(res => {
             cal?.refetchEvents()
+            setOpen(false)
         })
     }
 
@@ -169,13 +170,13 @@ export default function PairingCard(props) {
                     <div style={modalStyle} className={classes.modal}>
                         <h2>Event Details</h2>
                         <form onSubmit={createEvent} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
-                            <FormControl style={{ width: 350 }}>
+                            <FormControl style={{ width: 350 }} required>
                                 <Input id="summaryRef" aria-describedby="my-helper-text" placeholder="event title" />
                             </FormControl>
-                            <FormControl style={{ width: 350 }}>
+                            <FormControl style={{ width: 350 }} required>
                                 <Input id="startTime" aria-describedby="my-helper-text" placeholder="start time" type="datetime-local" />
                             </FormControl>
-                            <FormControl style={{ width: 350 }}>
+                            <FormControl style={{ width: 350 }} required>
                                 <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
                             </FormControl>
                             <Button type="submit">Confirm</Button>
