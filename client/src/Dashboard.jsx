@@ -20,6 +20,7 @@ import listPlugin from '@fullcalendar/list';
 import iCalendarPlugin from '@fullcalendar/icalendar'
 import { motion } from "framer-motion"
 // import calEvents from './calendar/cal.ics'
+import {motion} from 'framer-motion';
 
 const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
 
@@ -85,11 +86,30 @@ export default function DashboardCards({ setCal }) {
     }
     return (
         <motion.div
+<<<<<<< HEAD
             initial="initial"
             animate="open"
             exit="closed"
             variants={variants}
             transition={{duration:0.3}}
+=======
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+        <Grid
+            container
+            direction="row"
+            ref={(el) => {
+                if (el) {
+                    el.style.setProperty('align-items', "center", 'important');
+                    el.style.setProperty('justify-content', "center", 'important');
+                }
+            }}
+            style={{ paddingLeft: 20, paddingRight: 20 }}
+            spacing={3}
+>>>>>>> e03a75633b86103313411b1a66adf7d644582e67
         >
             <Grid
                 container
@@ -114,6 +134,10 @@ export default function DashboardCards({ setCal }) {
                     {/* </main> */}
                 </Grid>
             </Grid>
+<<<<<<< HEAD
+=======
+        </Grid>
+>>>>>>> e03a75633b86103313411b1a66adf7d644582e67
         </motion.div>
     )
 }
