@@ -19,6 +19,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import iCalendarPlugin from '@fullcalendar/icalendar'
 import { motion } from "framer-motion"
+import Fab from '@material-ui/core/Fab';
+import { Link } from 'react-router-dom';
+import AddIcon from '@material-ui/icons/CreateTwoTone';
 // import calEvents from './calendar/cal.ics'
 
 const API_KEY = "AIzaSyAh5r_-OWMGjDBaPv3QOc9Yl1yUBvYyL2E";
@@ -44,12 +47,23 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center"
+    },
+    fab: {
+        zIndex: 100,
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+        fontWeight: 500
+    },
+    extendedIcon: {
+        marginRight: theme.spacing(1),
     }
 }));
 
 
 export default function DashboardCards({ setCal }) {
     const calendarEl = useRef()
+    const classes = useStyles();
 
     useEffect(() => {
         let cal = new Calendar(calendarEl.current, {
@@ -79,29 +93,21 @@ export default function DashboardCards({ setCal }) {
     }, [])
 
     const variants = {
-        initial: { opacity: 0},
+        initial: { opacity: 0 },
         open: { opacity: 1 },
         closed: { opacity: 0 },
     }
     return (
         <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-        <Grid
-            container
-            direction="row"
-            ref={(el) => {
-                if (el) {
-                    el.style.setProperty('align-items', "center", 'important');
-                    el.style.setProperty('justify-content', "center", 'important');
-                }
-            }}
-            style={{ paddingLeft: 20, paddingRight: 20 }}
-            spacing={3}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
         >
+            <Fab variant="extended" color="primary" aria-label="register" className={classes.fab} component={Link} to="/match_request" style={{ position: 'fixed', bottom: 20, right: 20 }}>
+                <AddIcon className={classes.extendedIcon} />
+                    Match Request
+                </Fab>
             <Grid
                 container
                 direction="row"
@@ -114,18 +120,30 @@ export default function DashboardCards({ setCal }) {
                 style={{ paddingLeft: 20, paddingRight: 20 }}
                 spacing={3}
             >
-                <Grid item xs={12} justify="center" alignItems="flex-start" >
-                    {/* <main className={classes.contentShift}> */}
-                    <Box>
-                        <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Nexus!</h1>
-                        <br />
-                        <h2 style={{ textAlign: "center" }}>Scheduled Events:</h2>
-                        <div ref={calendarEl} style={{ marginLeft: 20, marginRight: 20 }}></div>
-                    </Box>
-                    {/* </main> */}
+                <Grid
+                    container
+                    direction="row"
+                    ref={(el) => {
+                        if (el) {
+                            el.style.setProperty('align-items', "center", 'important');
+                            el.style.setProperty('justify-content', "center", 'important');
+                        }
+                    }}
+                    style={{ paddingLeft: 20, paddingRight: 20 }}
+                    spacing={3}
+                >
+                    <Grid item xs={12} justify="center" alignItems="flex-start" >
+                        {/* <main className={classes.contentShift}> */}
+                        <Box>
+                            <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Nexus!</h1>
+                            <br />
+                            <h2 style={{ textAlign: "center" }}>Scheduled Events:</h2>
+                            <div ref={calendarEl} style={{ marginLeft: 20, marginRight: 20 }}></div>
+                        </Box>
+                        {/* </main> */}
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
         </motion.div>
     )
 }

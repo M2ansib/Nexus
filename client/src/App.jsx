@@ -39,6 +39,7 @@ import Register from './views/Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile'
 import Chat from './Chat'
+import MatchRequestForm from './MatchRequestForm'
 // import {App} from '../../asc-chat/src/main/App'
 import Internships from './Internships'
 import Pairings from './Pairings'
@@ -111,48 +112,51 @@ function Base() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <SnackbarProvider
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        TransitionComponent={Collapse}
-                        maxSnack={5}
-                    >
-                    <Interceptor />
-                    <AnimatePresence exitBeforeEnter initial={false}>
-                        <BrowserRouter>
-                            <GradientCanvas includes={['/', '/register', '/mentor_register', '/mentee_register']} />
-                            <TopBar excludes={['/', '/chat', '/register', '/mentor_register', '/mentee_register']} />
-                            <Toolbar excludes={['/', '/chat', '/register', '/mentor_register', '/mentee_register']} />
-                            <Switch location={location} key={location.pathname}>
-                                <Route exact path="/">
-                                    {/* <TopBar/>
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                TransitionComponent={Collapse}
+                maxSnack={5}
+            >
+                <Interceptor />
+                <AnimatePresence exitBeforeEnter initial={false}>
+                    <BrowserRouter>
+                        <GradientCanvas includes={['/', '/register', '/mentor_register', '/mentee_register', '/match_request']} />
+                        <TopBar excludes={['/', '/chat', '/register', '/mentor_register', '/mentee_register', '/match_request']} />
+                        <Toolbar excludes={['/', '/chat', '/register', '/mentor_register', '/mentee_register', '/match_request']} />
+                        <Switch location={location} key={location.pathname}>
+                            <Route exact path="/">
+                                {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
-                                    <Login />
-                                </Route>
-                                <Route exact path="/register">
-                                    <Register />
-                                </Route>
-                                {/* <Route exact path="/internships">
+                                <Login />
+                            </Route>
+                            <Route exact path="/register">
+                                <Register />
+                            </Route>
+                            {/* <Route exact path="/internships">
                                     <Internships />
                                 </Route> */}
-                                <Route exact path="/dash">
-                                    <Dashboard setCal={setCal} />
-                                </Route>
-                                <Route exact path="/groupings">
-                                    <Pairings cal={cal} />
-                                </Route>
-                                <Route exact path="/profile">
-                                    <Profile />
-                                </Route>
-                                <Route exact path="/chat">
-                                    <Chat />
-                                </Route>
-                                {/* <Route exact path="/login" component={Login} /> */}
-                            </Switch>
-                        </BrowserRouter>
-                    </AnimatePresence>
-                    </SnackbarProvider>
+                            <Route exact path="/match_request">
+                                <MatchRequestForm />
+                            </Route>
+                            <Route exact path="/dash">
+                                <Dashboard setCal={setCal} />
+                            </Route>
+                            <Route exact path="/groupings">
+                                <Pairings cal={cal} />
+                            </Route>
+                            <Route exact path="/profile">
+                                <Profile />
+                            </Route>
+                            <Route exact path="/chat">
+                                <Chat />
+                            </Route>
+                            {/* <Route exact path="/login" component={Login} /> */}
+                        </Switch>
+                    </BrowserRouter>
+                </AnimatePresence>
+            </SnackbarProvider>
         </ThemeProvider >
     );
 }

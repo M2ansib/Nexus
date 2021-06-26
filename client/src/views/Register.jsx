@@ -378,10 +378,6 @@ export default function LandingPageComponent() {
                                 </form>
                             </Paper>
                         </TabPanel>
-                        <TabPanel value={value} index={2}>
-                            Item Three
-      </TabPanel>
-
                     </Box>
                 </div>
             </motion.div>
