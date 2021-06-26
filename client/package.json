@@ -39,6 +39,7 @@
         "deepcopy": "^2.1.0",
         "emoji-mart": "^3.0.1",
         "emoji-picker-react": "^3.4.8",
+        "fetch-intercept": "^2.4.0",
         "framer-motion": "^4.1.17",
         "fullcalendar": "^5.8.0",
         "jquery": "^3.6.0",
