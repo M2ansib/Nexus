@@ -73,11 +73,12 @@ function getModalStyle() {
 
 export default function PairingCard(props) {
     const classes = useStyles()
-    const { name, initials, preferences, remarks, email, cal } = props
+    const { name, initials, preferences, remarks, email, cal, index, setPairings } = props
     const [expanded, setExpanded] = React.useState(false);
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = useState(false)
     const [unpairOpen, setUnpairOpen] = useState(false)
+    const [reportOpen, setReportOpen] = useState(false)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -110,6 +111,12 @@ export default function PairingCard(props) {
     }
     const unpairUser = (e) => {
         e.preventDefault()
+        setExpanded(false)
+        setPairings(prevActions => (
+            // Filter out the item with the matching index
+            prevActions.filter((value, i) => i !== index)
+        ));
+        
         setUnpairOpen(false)
     }
 
@@ -158,7 +165,7 @@ export default function PairingCard(props) {
                                 <Button onClick={() => { setOpen(open => !open) }}>Schedule Meeting</Button>
                                 <Button className="join" component={Link} to="/chat">Message</Button>
                                 <Button onClick={() => { setUnpairOpen(unpairOpen => !unpairOpen) }}>Unpair</Button>
-                                <Button>Report</Button>
+                                <Button onClick={() => { setReportOpen(unpairOpen => !unpairOpen) }}>Report</Button>
                             </ButtonGroup>
                         </CardContent>
                     </Collapse>
@@ -199,6 +206,23 @@ export default function PairingCard(props) {
                                 <Input multiline id="summaryRef" aria-describedby="my-helper-text" placeholder="" />
                             </FormControl>
                             <Button type="submit">Unpair</Button>
+                        </form>
+                    </div>
+                </Modal>
+                <Modal
+                    open={reportOpen}
+                    onClose={() => { setReportOpen(open => !open) }}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    <div style={modalStyle} className={classes.modal}>
+                        <h2>Report User</h2>
+                        <form onSubmit={unpairUser} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
+                            <FormControl style={{ width: 350 }} required>
+                                <FormHelperText>Please provide reasons for reporting this user, and we will look into the matter!</FormHelperText>
+                                <Input multiline id="summaryRef" aria-describedby="my-helper-text" placeholder="" />
+                            </FormControl>
+                            <Button type="submit">Report and Unpair</Button>
                         </form>
                     </div>
                 </Modal>

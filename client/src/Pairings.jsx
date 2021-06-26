@@ -143,7 +143,7 @@ function PairingsList(props) {
 
                     <MosaicContainer>
                         {pairings.map((pairing, index) => (
-                            <Card key={index} name={pairing.name} initials={pairing.initials} preferences={pairing.preferences} remarks={pairing.remarks} cal={pairing.cal} email={pairing.email} />
+                            <Card key={index} name={pairing.name} setPairings={setPairings} initials={pairing.initials} preferences={pairing.preferences} remarks={pairing.remarks} cal={pairing.cal} email={pairing.email} index={index}/>
                         ))}
                     </MosaicContainer>
                 </motion.div>
