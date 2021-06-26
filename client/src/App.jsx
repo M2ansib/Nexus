@@ -39,6 +39,7 @@ import Register from './views/Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile'
 import Chat from './Chat'
+// import {App} from '../../asc-chat/src/main/App'
 import Internships from './Internships'
 import Pairings from './Pairings'
 import Toolbar from './wrappers/Toolbar';

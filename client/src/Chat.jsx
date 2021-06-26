@@ -19,8 +19,8 @@ export default function Chat() {
             exit="closed"
             variants={variants}
         >
-            <Grid container alignItems="center" justify="center" style={{ backgroundColor: "darkseagreen", height: "100vh" }}>
-                <div>chat ui</div>
+            <Grid container alignItems="center" justify="center" style={{height: "100vh" }}>
+                <iframe src="http://localhost:3000/" style={{width:"100%", height:"95%"}}></iframe>
                 <IconButton aria-label="close" color="inherit" component={Link} to="/dash">
                     <CancelIcon />
                 </IconButton>
