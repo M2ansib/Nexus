@@ -1,2 +1,2 @@
-# Ascent **L**earning-oriented **E**nhanced **A**ggregation **P**ortal
+# NEXUS **N**etwork-oriented **E**nhanced **A**ggregation **P**ortal
 
