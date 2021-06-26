@@ -134,6 +134,11 @@ export default function LandingPageComponent() {
         // gradient.initGradient("#gradient-canvas");
     }, []);
 
+    const onSubmit=(e)=>{
+        e.preventDefault()
+        console.log(values)
+    }
+
     return (
         <AnimatePresence>
             <motion.div
@@ -163,7 +168,7 @@ export default function LandingPageComponent() {
                         <TabPanel value={value} index={0}>
                             <Paper elevation={3} className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)", padding: "1em" }}>
                                 <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", overflowX: 'hidden' }}>Sign up as a local student!</h1>
-                                <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))" }}>
+                                <form noValidate onSubmit={onSubmit} autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))" }}>
                                     <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
                                         <InputLabel>First Name</InputLabel>
                                         <OutlinedInput
@@ -254,7 +259,7 @@ export default function LandingPageComponent() {
                                     />
                                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                         <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden" }}>
-                                            <Button>
+                                            <Button type="submit">
                                                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                                                     <Grid item style={{ display: "flex" }}>
                                                         <LockOpenRoundedIcon />
@@ -272,7 +277,7 @@ export default function LandingPageComponent() {
                         <TabPanel value={value} index={1}>
                             <Paper elevation={3} className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)", padding: "1em" }}>
                                 <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", overflowX: 'hidden' }}>Sign up as an international student!</h1>
-                                <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))" }}>
+                                <form onSubmit={onSubmit} noValidate autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))" }}>
                                     <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
                                         <InputLabel>First Name</InputLabel>
                                         <OutlinedInput
@@ -363,7 +368,7 @@ export default function LandingPageComponent() {
                                     />
                                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                         <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden" }}>
-                                            <Button>
+                                            <Button type="submit">
                                                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                                                     <Grid item style={{ display: "flex" }}>
                                                         <LockOpenRoundedIcon />
