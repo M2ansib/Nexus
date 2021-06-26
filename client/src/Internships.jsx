@@ -155,7 +155,7 @@ function PairingsList(props) {
                     <MosaicContainer>
                         {console.log(filterByValue(internships, search))}
                         {filterByValue(internships, search).map((internship, index) => (
-                            <InternshipCard position={internship.position} company={internship.company} imageLink={internship.imageLink} learnMoreLink={internship.learnMoreLink} applyLink={internship.applyLink} jobDescription={internship.jobDescription} />
+                            <InternshipCard key={index} position={internship.position} company={internship.company} imageLink={internship.imageLink} learnMoreLink={internship.learnMoreLink} applyLink={internship.applyLink} jobDescription={internship.jobDescription} />
                         ))}
                     </MosaicContainer>
                 </motion.div>

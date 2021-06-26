@@ -14,10 +14,10 @@ export default function Chat() {
     }
     return (
         <motion.div
-            initial="initial"
-            animate="open"
-            exit="closed"
-            variants={variants}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
         >
             <Grid container alignItems="center" justify="center" style={{height: "100vh" }}>
                 <iframe src="http://localhost:3000/" style={{width:"100%", height:"95%"}}></iframe>

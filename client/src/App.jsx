@@ -44,9 +44,9 @@ import Internships from './Internships'
 import Pairings from './Pairings'
 import Toolbar from './wrappers/Toolbar';
 
-import PubNub from "pubnub";
-import { PubNubProvider } from "pubnub-react";
-import pubnubKeys from "./chat/pubnub-keys.json";
+// import PubNub from "pubnub";
+// import { PubNubProvider } from "pubnub-react";
+// import pubnubKeys from "./chat/pubnub-keys.json";
 import { motion, AnimatePresence } from "framer-motion"
 import GradientCanvas from './wrappers/GradientCanvas';
 import Interceptor from './Interceptor';
@@ -88,51 +88,11 @@ const theme = createMuiTheme({
 
 });
 
-const pubnub = new PubNub({
-    ...pubnubKeys,
-    uuid: "user_63ea15931d8541a3bd35e5b1f09087dc",
-    suppressLeaveEvents: true
-});
-
-
-const SwitchComponent = () => {
-    const [cal, setCal] = useState()
-    const location = useLocation();
-
-    return (
-        <AnimatePresence exitBeforeEnter initial={false}>
-            <Switch location={location} key={location.pathname}>
-                <Route exact path="/">
-                    {/* <TopBar/>
-        <div style={{"paddingBottom":"2.5em",}}></div> */}
-                    <Login />
-                </Route>
-                <Route exact path="/register">
-                    <Register />
-                </Route>
-                <Route exact path="/dash">
-                    <TopBar />
-                    <Toolbar />
-                    <Dashboard setCal={setCal} />
-                </Route>
-                <Route exact path="/groupings">
-                    <TopBar />
-                    <Toolbar />
-                    <Pairings cal={cal} />
-                </Route>
-                <Route exact path="/profile">
-                    <TopBar />
-                    <Toolbar />
-                    <Profile />
-                </Route>
-                <Route exact path="/chat">
-                    <Chat />
-                </Route>
-                {/* <Route exact path="/login" component={Login} /> */}
-            </Switch>
-        </AnimatePresence>
-    )
-}
+// const pubnub = new PubNub({
+//     ...pubnubKeys,
+//     uuid: "user_63ea15931d8541a3bd35e5b1f09087dc",
+//     suppressLeaveEvents: true
+// });
 
 function Base() {
 

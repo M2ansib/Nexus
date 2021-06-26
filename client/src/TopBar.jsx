@@ -18,7 +18,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import ForumIcon from '@material-ui/icons/Forum';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import Chat from './chat/Chat'
+// import Chat from './chat/Chat'
 import { Link } from "react-router-dom"
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';

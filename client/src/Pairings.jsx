@@ -57,6 +57,56 @@ function PairingsList(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [currentTime, setCurrentTime] = useState(0);
+    const [pairings, setPairings] = useState([
+        {
+            name: "Amish Venkat",
+            initials: "AV",
+            preferences: "Chess",
+            remarks: "Not available on Wednesdays",
+            cal: cal,
+            email: "av@gmail.com"
+        },
+        {
+            name: " Tan Chien Hao",
+            initials: "TCH",
+            preferences: "Cafe-hopping, Experimental Learning",
+            remarks: "Free only on weekends",
+            cal: cal,
+            email: "tch@gmail.com"
+        },
+        {
+            name: "Amish Venkat",
+            initials: "AV",
+            preferences: "Chess",
+            remarks: "Not available on Wednesdays",
+            cal: cal,
+            email: "av@gmail.com"
+        },
+        {
+            name: " Tan Chien Hao",
+            initials: "TCH",
+            preferences: "Cafe-hopping, Experimental Learning",
+            remarks: "Free only on weekends",
+            cal: cal,
+            email: "tch@gmail.com"
+        },
+        {
+            name: "Amish Venkat",
+            initials: "AV",
+            preferences: "Chess",
+            remarks: "Not available on Wednesdays",
+            cal: cal,
+            email: "av@gmail.com"
+        },
+        {
+            name: " Tan Chien Hao",
+            initials: "TCH",
+            preferences: "Cafe-hopping, Experimental Learning",
+            remarks: "Free only on weekends",
+            cal: cal,
+            email: "tch@gmail.com"
+        }
+    ])
 
     const variants = {
         initial: { opacity: 0 },
@@ -69,12 +119,12 @@ function PairingsList(props) {
         exit: { transition: { staggerChildren: 0.02 } }
     };
 
-    useEffect(() => {
-        // enqueueSnackbar("hello!")
-        fetch('/api/time').then(res => res.json()).then(data => {
-            setCurrentTime(data.time);
-        });
-    }, []);
+    // useEffect(() => {
+    //     // enqueueSnackbar("hello!")
+    //     fetch('/api/time').then(res => res.json()).then(data => {
+    //         setCurrentTime(data.time);
+    //     });
+    // }, []);
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -92,18 +142,9 @@ function PairingsList(props) {
                 >
 
                     <MosaicContainer>
-                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
+                        {pairings.map((pairing, index) => (
+                            <Card key={index} name={pairing.name} initials={pairing.initials} preferences={pairing.preferences} remarks={pairing.remarks} cal={pairing.cal} email={pairing.email} />
+                        ))}
                     </MosaicContainer>
                 </motion.div>
             </div>
@@ -116,7 +157,7 @@ export default function Groupings() {
     return (
 
         <Grid xs={12} justify="flex-start" alignItems="flex-start">
-            <PairingsList/>
+            <PairingsList />
         </Grid>
     )
 }

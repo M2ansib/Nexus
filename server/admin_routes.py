@@ -63,14 +63,17 @@ def logout():
     return jsonify({"OK": 200})
 
 
-@admin_api.route('/write_to_cal', methods=['POST'])
+@admin_api.route('/write_to_cal', methods=['POST', 'GET'])
+@limiter.exempt
 def write_to_cal():
     c = Calendar(requests.get('http://localhost:8080/api/get_cal').text)
     e = Event()
+    
+    print(request.values)
     e.name = request.values["name"]
     e.begin = request.values["begin"]
     e.end = request.values["end"]
-    print(request.values["attendees"])
+    print(request.values["name"])
     for attendee in request.values["attendees"].split(","):
         print(attendee)
         e.add_attendee(attendee)

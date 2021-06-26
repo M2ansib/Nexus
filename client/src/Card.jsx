@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -22,6 +22,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import moment, { calendarFormat } from 'moment';
 import { motion } from "framer-motion"
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -76,6 +77,7 @@ export default function PairingCard(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = useState(false)
+    const [unpairOpen, setUnpairOpen] = useState(false)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -83,20 +85,32 @@ export default function PairingCard(props) {
 
     const createEvent = (e) => {
         e.preventDefault()
-        let fd = new FormData()
-        console.log(moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
-        fd.append("name", document.getElementById("summaryRef").value)
-        fd.append("begin", moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
-        fd.append("end", moment.utc(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD hh:mm:ss"))
-        fd.append("attendees", ["ria.mundhra.2019@vjc.sg", "test"])
+        // let formData = new FormData()
+        // formData.append("name", document.getElementById("summaryRef").value)
+        // formData.append("begin", moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
+        // formData.append("end", moment.utc(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD hh:mm:ss"))
+        // formData.append("attendees", "ria.mundhra.2019@vjc.sg,test")
 
         fetch("/api/write_to_cal", {
             method: "POST",
-            body: fd
+            // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'name': document.getElementById("summaryRef").value,
+                'begin': moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"),
+                'end': moment.utc(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD hh:mm:ss"),
+                'attendees': "ria.mundhra.2019@vjc.sg,test"
+            })
         }).then(res => {
             cal?.refetchEvents()
             setOpen(false)
         })
+    }
+    const unpairUser = (e) => {
+        e.preventDefault()
+        setUnpairOpen(false)
     }
 
     const transition = { duration: 0.5, ease: "easeInOut" };
@@ -143,7 +157,7 @@ export default function PairingCard(props) {
                             <ButtonGroup fullWidth='true' orientation="vertical" display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">
                                 <Button onClick={() => { setOpen(open => !open) }}>Schedule Meeting</Button>
                                 <Button className="join" component={Link} to="/chat">Message</Button>
-                                <Button>Unpair</Button>
+                                <Button onClick={() => { setUnpairOpen(unpairOpen => !unpairOpen) }}>Unpair</Button>
                                 <Button>Report</Button>
                             </ButtonGroup>
                         </CardContent>
@@ -168,6 +182,23 @@ export default function PairingCard(props) {
                                 <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
                             </FormControl>
                             <Button type="submit">Confirm</Button>
+                        </form>
+                    </div>
+                </Modal>
+                <Modal
+                    open={unpairOpen}
+                    onClose={() => { setUnpairOpen(open => !open) }}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    <div style={modalStyle} className={classes.modal}>
+                        <h2>Confirm Unpair</h2>
+                        <form onSubmit={unpairUser} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
+                            <FormControl style={{ width: 350 }} required>
+                                <FormHelperText>Your feedback is important to us! Please provide a reason for unpairing</FormHelperText>
+                                <Input multiline id="summaryRef" aria-describedby="my-helper-text" placeholder="" />
+                            </FormControl>
+                            <Button type="submit">Unpair</Button>
                         </form>
                     </div>
                 </Modal>
