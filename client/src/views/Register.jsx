@@ -97,7 +97,7 @@ export default function LandingPageComponent() {
         recoveryEmail: '',
         password: '',
         preferences: ['list', 'of', 'preferences', 'here'],
-        selectedPreferences:[]
+        selectedPreferences: []
     });
     const [value, setValue] = React.useState(0);
 
@@ -134,9 +134,10 @@ export default function LandingPageComponent() {
         // gradient.initGradient("#gradient-canvas");
     }, []);
 
-    const onSubmit=(e)=>{
+    const onSubmit = (e) => {
         e.preventDefault()
         console.log(values)
+        console.log(value === 0 ? "Local Student" : "International Student")
     }
 
     return (
