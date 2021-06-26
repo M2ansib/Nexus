@@ -257,20 +257,22 @@ export default function PrimarySearchAppBar(props) {
                             vertical: 'top',
                             horizontal: 'left',
                         }}
+
+                        
                     >
-                        <ToggleButtonGroup exclusive value={role} onChange={handleRole} aria-label="role" style={{ padding: 10, height: 40, width: 300 }}>
+                        {/* <ToggleButtonGroup exclusive value={role} onChange={handleRole} aria-label="role" style={{ padding: 10, height: 40, width: 300 }}>
                             <ToggleButton value="Internships" aria-label="Mentor">
                                 <MenuItem component={Link} to="/internships">Internships</MenuItem>
                             </ToggleButton>
                             <ToggleButton value="Groups" aria-label="Mentee">
                                 <MenuItem component={Link} to="/dash">Groups</MenuItem>
                             </ToggleButton>
-                        </ToggleButtonGroup>
+                        </ToggleButtonGroup> */}
                         {location.pathname !== "/internships" &&
-                            <>
-                                <MenuItem component={Link} onClick={handleDrawerClose} to="/groupings" >Groupings</MenuItem>
-                                <MenuItem component={Link} onClick={handleDrawerClose} to="/dash" >Events</MenuItem>
-                            </>
+                            <div style={{width: 200, display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column" }}>
+                                <MenuItem component={Link} onClick={handleDrawerClose} to="/groupings">Groupings</MenuItem>
+                                <MenuItem component={Link} onClick={handleDrawerClose} to="/dash">Events</MenuItem>
+                            </div>
                         }
 
                     </SwipeableDrawer>

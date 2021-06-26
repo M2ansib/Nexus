@@ -14,6 +14,8 @@ db_api = Blueprint('db_api', __name__, url_prefix='/db_api')
 
 from appserver import limiter
 
+import os
+
 Schema.EstablishConnection()
 
 def ValidateCredentials(username, password):
@@ -36,15 +38,20 @@ def LoggedIn():
 
 @admin_api.route('/login', methods=['POST'])
 def login():
-    record = request.get_json()
+    record = request.get_json(force=True)
     pwd = record.pop('password', "")
     username = record.pop('username', "")
+    # record['username']
     username = username.lower()
+
+    print("[DEBUG]", request.get_json(force=True))
 
     if ValidateCredentials(username, pwd):
         session['logged_in'] = True
+        if 'last_login' not in session:
+            session['last_login'] = datetime.datetime.utcnow().isoformat()
         session.permanent = True
-        return jsonify({"OK": 200})
+        return jsonify({"OK": 200, "session_data": dict(session)})
     else:
         log.warning(f"Failed login attempt for user '{username}'")
         return Response(jsonify({"UNAUTHORIZED": 401}), 401)
@@ -63,17 +70,14 @@ def logout():
     return jsonify({"OK": 200})
 
 
-@admin_api.route('/write_to_cal', methods=['POST', 'GET'])
-@limiter.exempt
+@admin_api.route('/write_to_cal', methods=['POST'])
 def write_to_cal():
     c = Calendar(requests.get('http://localhost:8080/api/get_cal').text)
     e = Event()
-    
-    print(request.values)
     e.name = request.values["name"]
     e.begin = request.values["begin"]
     e.end = request.values["end"]
-    print(request.values["name"])
+    print(request.values["attendees"])
     for attendee in request.values["attendees"].split(","):
         print(attendee)
         e.add_attendee(attendee)

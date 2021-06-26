@@ -133,9 +133,9 @@ function Base() {
                                 <Route exact path="/register">
                                     <Register />
                                 </Route>
-                                <Route exact path="/internships">
+                                {/* <Route exact path="/internships">
                                     <Internships />
-                                </Route>
+                                </Route> */}
                                 <Route exact path="/dash">
                                     <Dashboard setCal={setCal} />
                                 </Route>

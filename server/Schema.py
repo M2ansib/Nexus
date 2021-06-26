@@ -144,7 +144,7 @@ class Config:
     MATCH_REQUEST_EXPIRY_TIMEDELTA = datetime.timedelta(minutes=6)
     '''Specifies the default span of time before a ```MatchRequest``` is deemed to have expired.'''
 
-    MATCHING_COROUTINE_TIMEDELTA = datetime.timedelta(minutes=.4)
+    MATCHING_COROUTINE_TIMEDELTA = datetime.timedelta(minutes=2)
     '''Specifies the default interval between subsequent calls of the matching coroutine.'''
 
     DEFAULT_TIMEZONE = 'UTC'
@@ -153,7 +153,7 @@ class Config:
     DEFAULT_MENTOR_LIMIT = 1
     '''Specifies the default mentor threshold for each ```Grouping```.'''
     
-    DEFAULT_MENTEE_LIMIT = 4
+    DEFAULT_MENTEE_LIMIT = 1
     '''Specifies the default mentee threshold for each ```Grouping```.'''
 
     ALLOW_MULTIPLE_MENTORS_IN_GROUPING = False
@@ -186,7 +186,8 @@ class Institution(MongoModel):
     URL to the institution\'s landing page. 
     This is used for auto-detecting the User\'s institution from their email address during registration.
     '''
-
+class Preferences(MongoModel):
+    preference = fields.CharField(max_length=16, primary_key=True)
 class Role(MongoModel):
     """
     Internal collection for storing user roles as a set of enumerations.
@@ -232,11 +233,6 @@ class User(MongoModel):
         Follows same storage convention as the password.
     '''
 
-    age = fields.IntegerField(min_value=16, required=True)
-    '''
-        Self-explanatory.
-    '''
-
     role = fields.ReferenceField(model=Role, required=True)
     '''
         User role, for permission/access control.
@@ -246,6 +242,11 @@ class User(MongoModel):
     '''
         Reference to the user\'s ```Schema.Institution```.
     '''
+
+    calendar = fields.CharField(required=False, blank=False, default="")
+
+    preferences = fields.ListField(field=fields.ReferenceField(model=Preferences), required=True)
+
 
     # country = fields.CharField(validators=[Utilities.Validators.Validator_CountryCode])
     # '''
