@@ -12,6 +12,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Calendar } from '@fullcalendar/core';
 import Box from '@material-ui/core/Box';
 
+import { SnackbarProvider } from 'notistack';
+
 import {
     TransitionGroup,
     CSSTransition,
@@ -45,6 +47,9 @@ import { PubNubProvider } from "pubnub-react";
 import pubnubKeys from "./chat/pubnub-keys.json";
 import { motion, AnimatePresence } from "framer-motion"
 import GradientCanvas from './wrappers/GradientCanvas';
+import Interceptor from './Interceptor';
+
+import Collapse from '@material-ui/core/Collapse';
 
 OverlayScrollbars(document.body, {
     nativeScrollbarsOverlaid: {
@@ -128,17 +133,30 @@ const SwitchComponent = () => {
 }
 
 function Base() {
+
     const { observe, width, height } = useDimensions({
         useBorderBoxSize: true, // Tell the hook to measure based on the border-box size, default is false
         polyfill: ResizeObserver, // Use polyfill to make this feature works on more browsers
     });
     const [cal, setCal] = useState()
 
+    const variants = {
+        open: { opacity: 1, scale: [0.7, 2, 1, 1] },
+        closed: { opacity: 0, scale: [2, 1, 0, 0] },
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            {pubnubKeys.publishKey.length && pubnubKeys.subscribeKey.length ? (
-                <PubNubProvider client={pubnub}>
+            <SnackbarProvider
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        TransitionComponent={Collapse}
+                        maxSnack={5}
+                    >
+                    <Interceptor />
                     <AnimatePresence exitBeforeEnter initial={false}>
                         <BrowserRouter>
                             <GradientCanvas includes={['/', '/register']} />
@@ -181,19 +199,7 @@ function Base() {
                             </Switch>
                         </BrowserRouter>
                     </AnimatePresence>
-
-                </PubNubProvider>
-            ) : (
-                    <div className="pubnub-error">
-                        <h1>Warning! Missing PubNub keys</h1>
-                          Sign in or create an account to create an app on the
-                        <a href="https://dashboard.pubnub.com/">PubNub Admin Portal</a> and copy over the
-                          Publish/Subscribe keys into:
-                        <pre>samples/pubnub-keys.json</pre>
-                          in order to use the app properly.
-                    </div>
-                )
-            }
+                    </SnackbarProvider>
         </ThemeProvider >
     );
 }

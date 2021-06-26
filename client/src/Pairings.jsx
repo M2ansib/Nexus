@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Toolbar } from '@material-ui/core';
 import MosaicContainer from './MosaicContainer';
 import { motion } from 'framer-motion';
+// import {enqueueSnackbar} from './App';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,6 +70,7 @@ function PairingsList(props) {
     };
 
     useEffect(() => {
+        // enqueueSnackbar("hello!")
         fetch('/api/time').then(res => res.json()).then(data => {
             setCurrentTime(data.time);
         });

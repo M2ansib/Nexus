@@ -6,5 +6,6 @@
             "!Module"
         ]
     },
-    "python.pythonPath": "server/.venv/bin/python"
+    "python.pythonPath": "./server/.venv/bin/python",
+    "python.analysis.extraPaths": ["./server"]
 }
