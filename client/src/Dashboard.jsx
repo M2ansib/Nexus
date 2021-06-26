@@ -117,9 +117,9 @@ export default function DashboardCards({ setCal }) {
                 <Grid item xs={12} justify="center" alignItems="flex-start" >
                     {/* <main className={classes.contentShift}> */}
                     <Box>
-                        <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Ascademy!</h1>
+                        <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Nexus!</h1>
                         <br />
-                        <h2 style={{ textAlign: "center" }}>Scheduled Appointments</h2>
+                        <h2 style={{ textAlign: "center" }}>Scheduled Events:</h2>
                         <div ref={calendarEl} style={{ marginLeft: 20, marginRight: 20 }}></div>
                     </Box>
                     {/* </main> */}

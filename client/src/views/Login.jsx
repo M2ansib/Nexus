@@ -96,9 +96,9 @@ export default function LandingPageComponent() {
                     Register
                 </Fab>
                 <Paper elevation={3} className="blur-behind" style={{"borderRadius":"8px", "backgroundColor": "rgba(200,200,200,0.75)", padding:"1em"}}>
-                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", overflowX:'hidden'}}>Welcome to Ascademy!</h1>
+                    <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", overflowX:'hidden'}}>Welcome to Nexus!</h1>
                     <form className={classes.root} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" required label="ID" variant="outlined" width="100%" color="secondary" />
+                    <TextField id="outlined-basic" required label="Email" variant="outlined" width="100%" color="secondary" />
                     <br/>
                     <FormControl required className={clsx(classes.margin, classes.textField)} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>

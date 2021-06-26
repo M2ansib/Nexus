@@ -39,8 +39,7 @@ import Register from './views/Register';
 import Dashboard from './Dashboard';
 import Profile from './Profile'
 import Chat from './Chat'
-import MentorRegister from './views/MentorRegistration'
-import MenteeRegister from './views/MenteeRegistration'
+import Internships from './Internships'
 import Pairings from './Pairings'
 import Toolbar from './wrappers/Toolbar';
 
@@ -66,7 +65,7 @@ const theme = createMuiTheme({
     palette: {
         type: "light",
         primary: { main: '#2196f3', },
-        secondary: { main: '#2196f3', contrastText: 'white', },
+        secondary: { main: '#2196f3', contrastText: '#fff', },
         default: { main: "lightgreen" },
         error: { main: "#f08080" }
     },
@@ -173,11 +172,8 @@ function Base() {
                                 <Route exact path="/register">
                                     <Register />
                                 </Route>
-                                <Route exact path="/mentor_register">
-                                    <MentorRegister />
-                                </Route>
-                                <Route exact path="/mentee_register">
-                                    <MenteeRegister />
+                                <Route exact path="/internships">
+                                    <Internships />
                                 </Route>
                                 <Route exact path="/dash">
                                     <Dashboard setCal={setCal} />
@@ -189,19 +185,7 @@ function Base() {
                                     <Profile />
                                 </Route>
                                 <Route exact path="/chat">
-                                    {({ match }) => (
-                                        <motion.div
-                                            initial="closed"
-                                            // animate={match !== null ? { scale: [1, 2, 2, 1, 1], borderRadius: ["0%", "20%", "50%", "20%", "0%"] } : { scale: 0 }}
-                                            animate={match ? "open" : "closed"}
-                                            variants={variants}
-                                        // transition={{ duration: 0.7 }}
-                                        >
-                                            <>
-                                                <Chat />
-                                            </>
-                                        </motion.div>
-                                    )}
+                                    <Chat />
                                 </Route>
                                 {/* <Route exact path="/login" component={Login} /> */}
                             </Switch>

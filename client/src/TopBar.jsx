@@ -98,11 +98,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props) {
     const loc = useLocation()
-    
-    if (props.excludes) 
+
+    if (props.excludes)
         if (props.excludes.includes(loc.pathname)) return null;
 
-    const [role, setRole] = useState("Mentor")
+    const [role, setRole] = useState(loc.pathname === "/internships" ? "Internships" : "Groups")
     const [viewName, setViewName] = useState(loc.pathname === "/dash" ? "events" : loc.pathname.slice(1));
 
     const classes = useStyles();
@@ -259,20 +259,25 @@ export default function PrimarySearchAppBar(props) {
                         }}
                     >
                         <ToggleButtonGroup exclusive value={role} onChange={handleRole} aria-label="role" style={{ padding: 10, height: 40, width: 300 }}>
-                            <ToggleButton value="Mentor" aria-label="Mentor">
-                                <MenuItem onClick={handleDrawerClose}>Mentor</MenuItem>
+                            <ToggleButton value="Internships" aria-label="Mentor">
+                                <MenuItem component={Link} to="/internships">Internships</MenuItem>
                             </ToggleButton>
-                            <ToggleButton value="Mentee" aria-label="Mentee">
-                                <MenuItem onClick={handleDrawerClose}>Mentee</MenuItem>
+                            <ToggleButton value="Groups" aria-label="Mentee">
+                                <MenuItem component={Link} to="/dash">Groups</MenuItem>
                             </ToggleButton>
                         </ToggleButtonGroup>
-                        <MenuItem component={Link} onClick={handleDrawerClose} to="/groupings" >Groupings</MenuItem>
-                        <MenuItem component={Link} onClick={handleDrawerClose} to="/dash" >Events</MenuItem>
+                        {location.pathname !== "/internships" &&
+                            <>
+                                <MenuItem component={Link} onClick={handleDrawerClose} to="/groupings" >Groupings</MenuItem>
+                                <MenuItem component={Link} onClick={handleDrawerClose} to="/dash" >Events</MenuItem>
+                            </>
+                        }
+
                     </SwipeableDrawer>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        {role + " - Ascademy - " + viewName}
+                        {"Nexus - " + viewName}
                     </Typography>
-                    <div className={classes.search}>
+                    {/* <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
                         </div>
@@ -284,7 +289,7 @@ export default function PrimarySearchAppBar(props) {
                             }}
                             inputProps={{ 'aria-label': 'search' }}
                         />
-                    </div>
+                    </div> */}
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton

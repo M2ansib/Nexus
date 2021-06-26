@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -59,45 +59,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function getModalStyle() {
-    const top = 50;
-    const left = 50;
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
-
-export default function PairingCard(props) {
+export default function InternshipCard(props) {
     const classes = useStyles()
-    const { name, initials, preferences, remarks, email, cal } = props
+    const { position, company, imageLink, applyLink, learnMoreLink, jobDescription } = props
     const [expanded, setExpanded] = React.useState(false);
-    const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = useState(false)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-
-    const createEvent = (e) => {
-        e.preventDefault()
-        let fd = new FormData()
-        console.log(moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
-        fd.append("name", document.getElementById("summaryRef").value)
-        fd.append("begin", moment.utc(new Date(document.getElementById("startTime").value)).format("YYYY-MM-DD hh:mm:ss"))
-        fd.append("end", moment.utc(new Date(document.getElementById("endTime").value)).format("YYYY-MM-DD hh:mm:ss"))
-        fd.append("attendees", ["ria.mundhra.2019@vjc.sg", "test"])
-
-        fetch("/api/write_to_cal", {
-            method: "POST",
-            body: fd
-        }).then(res => {
-            cal?.refetchEvents()
-            setOpen(false)
-        })
-    }
 
     const transition = { duration: 0.5, ease: "easeInOut" };
     const postPreviewVariants = {
@@ -112,18 +81,17 @@ export default function PairingCard(props) {
                 <Card className={classes.root} elevation={5}>
                     <CardHeader
                         avatar={
-                            <Avatar aria-label="recipe" className={classes.avatar}>
-                                {initials}
+                            <Avatar aria-label="recipe" className={classes.avatar} src={imageLink}>
                             </Avatar>
                         }
-                        title={name}
+                        title={company}
                     />
                     <CardContent>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            Preferences: {preferences}
+                        <Typography variant="h6" color="textSecondary" component="p">
+                            {position}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Remarks: {remarks}
+                            {jobDescription}
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
@@ -141,36 +109,12 @@ export default function PairingCard(props) {
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent>
                             <ButtonGroup fullWidth='true' orientation="vertical" display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">
-                                <Button onClick={() => { setOpen(open => !open) }}>Schedule Meeting</Button>
-                                <Button className="join" component={Link} to="/chat">Message</Button>
-                                <Button>Unpair</Button>
-                                <Button>Report</Button>
+                                <Button href={learnMoreLink}>Learn More</Button>
+                                <Button href={applyLink}>Apply</Button>
                             </ButtonGroup>
                         </CardContent>
                     </Collapse>
                 </Card>
-                <Modal
-                    open={open}
-                    onClose={() => { setOpen(open => !open) }}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                >
-                    <div style={modalStyle} className={classes.modal}>
-                        <h2>Event Details</h2>
-                        <form onSubmit={createEvent} style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
-                            <FormControl style={{ width: 350 }} required>
-                                <Input id="summaryRef" aria-describedby="my-helper-text" placeholder="event title" />
-                            </FormControl>
-                            <FormControl style={{ width: 350 }} required>
-                                <Input id="startTime" aria-describedby="my-helper-text" placeholder="start time" type="datetime-local" />
-                            </FormControl>
-                            <FormControl style={{ width: 350 }} required>
-                                <Input id="endTime" aria-describedby="my-helper-text" placeholder="end time" type="datetime-local" />
-                            </FormControl>
-                            <Button type="submit">Confirm</Button>
-                        </form>
-                    </div>
-                </Modal>
             </motion.div>
         </>
     );

@@ -26,6 +26,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/LockOpenTwoTone';
 import { Link } from 'react-router-dom';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
 
 import { Container } from '@material-ui/core';
 
@@ -57,6 +60,33 @@ function getEmojiString(countryCode) {
     return String.fromCodePoint(...codePoints);
 }
 
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    <div>{children}</div>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
 export default function LandingPageComponent() {
     const classes = useStyles();
     const [currentTime, setCurrentTime] = useState(0);
@@ -66,12 +96,13 @@ export default function LandingPageComponent() {
         email: '',
         recoveryEmail: '',
         password: '',
-        phoneNumber: '',
-        age: '',
-        showPassword: false,
-        schools: ['Raffles Institution', 'Victoria Junior College', 'Dunman High School'],
-        country: ''
+        preferences: ['list', 'of', 'preferences', 'here']
     });
+    const [value, setValue] = React.useState(0);
+
+    const handleTabsChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -110,156 +141,247 @@ export default function LandingPageComponent() {
                 transition={{ duration: .5 }}
             >
                 <div>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "fixed", width: "100vw", height: "100vh" }}>
+                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "fixed", width: "100vw", height: "100vh", flexDirection: "column" }}>
                         <Fab variant="extended" color="primary" aria-label="register" className={classes.fab} component={Link} to="/">
                             <AddIcon className={classes.extendedIcon} />
                     Sign In
                 </Fab>
-                        <Paper elevation={3} className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)", padding: "1em" }}>
-                            <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", overflowX: 'hidden' }}>Welcome to Ascademy!</h1>
-                            <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))" }}>
-                                <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
-                                    <InputLabel>First Name</InputLabel>
-                                    <OutlinedInput
-                                        type="text"
-                                        value={values.firstName}
-                                        onChange={handleChange('firstName')}
-                                        // endAdornment={
-                                        // }
-                                        labelWidth={80}
-                                    />
-                                </FormControl>
-                                <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
-                                    <InputLabel>Last Name</InputLabel>
-                                    <OutlinedInput
-                                        type="text"
-                                        value={values.lastName}
-                                        onChange={handleChange('lastName')}
-                                        // endAdornment={
-                                        // }
-                                        labelWidth={80}
-                                    />
-                                </FormControl>
-                                <FormControl required variant="outlined" style={{ width: "100%", marginLeft: "10vw", marginRight: "10vw", height: "fit-content" }}>
-                                    <InputLabel>Email</InputLabel>
-                                    <OutlinedInput
-                                        type="text"
-                                        value={values.email}
-                                        onChange={handleChange('email')}
-                                        // endAdornment={
-                                        // }
-                                        labelWidth={80}
-                                    />
-                                </FormControl>
-                                <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
-                                    <InputLabel>Recovery Email</InputLabel>
-                                    <OutlinedInput
-                                        type="text"
-                                        value={values.recoveryEmail}
-                                        onChange={handleChange('recoveryEmail')}
-                                        // endAdornment={
-                                        // }
-                                        labelWidth={80}
-                                    />
-                                </FormControl>
-                                <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
-                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={values.showPassword ? 'text' : 'password'}
-                                        value={values.password}
-                                        onChange={handleChange('password')}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        labelWidth={80}
-                                    />
-                                </FormControl>
-                                <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
-                                    <InputLabel>Phone Number</InputLabel>
-                                    <OutlinedInput
-                                        type="text"
-                                        value={values.phoneNumber}
-                                        onChange={handleChange('phoneNumber')}
-                                        // endAdornment={
-                                        // }
-                                        labelWidth={80}
-                                    />
-                                </FormControl>
-                                <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
-                                    <InputLabel>Age</InputLabel>
-                                    <OutlinedInput
-                                        type="text"
-                                        value={values.age}
-                                        onChange={handleChange('age')}
-                                        // endAdornment={
-                                        // }
-                                        labelWidth={80}
-                                    />
-                                </FormControl>
-                                <Autocomplete
-                                    id="combo-box-school-choices"
-                                    options={values.schools}
-                                    freeSolo={true}
-                                    required
-                                    getOptionLabel={(option) => option}
-                                    style={{ width: "100%", margin: 10 }}
-                                    renderInput={(params) => <TextField {...params} label="School" variant="outlined" />}
-                                />
-                                <Autocomplete
-                                    id="country-select-demo"
-                                    style={{ width: "100%", margin: 10 }}
-                                    options={countries}
-                                    autoHighlight
-                                    required
-                                    getOptionLabel={(option) => option.label}
-                                    renderOption={(option) => (
-                                        <React.Fragment>
-                                            <span style={{ marginRight: 8 }} dangerouslySetInnerHTML={{ __html: twemoji.parse(getEmojiString(option.code)) }}></span>
-                                            {option.label} ({option.code}) +{option.phone}
-                                        </React.Fragment>
-                                    )}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Choose a country"
-                                            variant="outlined"
-                                            inputProps={{
-                                                ...params.inputProps,
-                                                autoComplete: 'new-password', // disable autocomplete and autofill
-                                            }}
-                                        />
-                                    )}
-                                />
-                                <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden" }}>
-                                        <Button>
-                                            <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                                                <Grid item style={{ display: "flex" }}>
-                                                    <LockOpenRoundedIcon />
-                                                </Grid>
-                                                <Grid item>
-                                                    Register
-                                    </Grid>
-                                            </Grid>
-                                        </Button>
-                                    </ButtonGroup>
-                                </Box>
-                            </form>
+                        <Paper square className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)" }}>
+                            <Tabs
+                                value={value}
+                                indicatorColor="primary"
+                                textColor="primary"
+                                onChange={handleTabsChange}
+                                aria-label="disabled tabs example"
+                            >
+                                <Tab label="Local Student" {...a11yProps(0)} />
+                                <Tab label="International Student" {...a11yProps(1)} />
+                            </Tabs>
                         </Paper>
+                        <TabPanel value={value} index={0}>
+                            <Paper elevation={3} className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)", padding: "1em" }}>
+                                <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", overflowX: 'hidden' }}>Sign up as a local student!</h1>
+                                <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))" }}>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>First Name</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.firstName}
+                                            onChange={handleChange('firstName')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>Last Name</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.lastName}
+                                            onChange={handleChange('lastName')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", marginLeft: "10vw", marginRight: "10vw", height: "fit-content" }}>
+                                        <InputLabel>Email</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.email}
+                                            onChange={handleChange('email')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>Recovery Email</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.recoveryEmail}
+                                            onChange={handleChange('recoveryEmail')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-password"
+                                            type={values.showPassword ? 'text' : 'password'}
+                                            value={values.password}
+                                            onChange={handleChange('password')}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                        edge="end"
+                                                    >
+                                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>Age</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.age}
+                                            onChange={handleChange('age')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <Autocomplete
+                                        multiple
+                                        id="combo-box-school-choices"
+                                        options={values.preferences}
+                                        freeSolo={true}
+                                        required
+                                        getOptionLabel={(option) => option}
+                                        style={{ width: "100%", margin: 10 }}
+                                        renderInput={(params) => <TextField {...params} label="Preferences" variant="outlined" />}
+                                    />
+                                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden" }}>
+                                            <Button>
+                                                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                                                    <Grid item style={{ display: "flex" }}>
+                                                        <LockOpenRoundedIcon />
+                                                    </Grid>
+                                                    <Grid item>
+                                                        Register
+                                    </Grid>
+                                                </Grid>
+                                            </Button>
+                                        </ButtonGroup>
+                                    </Box>
+                                </form>
+                            </Paper>
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            <Paper elevation={3} className="blur-behind" style={{ "borderRadius": "8px", "backgroundColor": "rgba(200,200,200,0.75)", padding: "1em" }}>
+                                <h1 className="drop-shadow" style={{ "width": "100%", "textAlign": "center", overflowX: 'hidden' }}>Sign up as an international student!</h1>
+                                <form noValidate autoComplete="off" style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flexDirection: "column", height: "60vh", overflowY: "scroll", overflowX: "hidden", flexWrap: "nowrap", alignContent: "center", padding: ".5em", paddingTop: "1em", webkitMaskImage: "-webkit-gradient(linear, center top, center bottom, color-stop(0.00,  rgba(255,255,255,0)),color-stop(0.02,  rgba(255,255,255,1)),color-stop(0.50,  rgba(255,255,255,1)),color-stop(0.98,  rgba(255,255,255,1)),color-stop(1.00,  rgba(255,255,255,0)))" }}>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>First Name</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.firstName}
+                                            onChange={handleChange('firstName')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>Last Name</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.lastName}
+                                            onChange={handleChange('lastName')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", marginLeft: "10vw", marginRight: "10vw", height: "fit-content" }}>
+                                        <InputLabel>Email</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.email}
+                                            onChange={handleChange('email')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>Recovery Email</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.recoveryEmail}
+                                            onChange={handleChange('recoveryEmail')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-password"
+                                            type={values.showPassword ? 'text' : 'password'}
+                                            value={values.password}
+                                            onChange={handleChange('password')}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                        edge="end"
+                                                    >
+                                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <FormControl required variant="outlined" style={{ width: "100%", margin: 10 }}>
+                                        <InputLabel>Age</InputLabel>
+                                        <OutlinedInput
+                                            type="text"
+                                            value={values.age}
+                                            onChange={handleChange('age')}
+                                            // endAdornment={
+                                            // }
+                                            labelWidth={80}
+                                        />
+                                    </FormControl>
+                                    <Autocomplete
+                                        multiple
+                                        id="combo-box-school-choices"
+                                        options={values.preferences}
+                                        freeSolo={true}
+                                        required
+                                        getOptionLabel={(option) => option}
+                                        style={{ width: "100%", margin: 10 }}
+                                        renderInput={(params) => <TextField {...params} label="Preferences" variant="outlined" />}
+                                    />
+                                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        <ButtonGroup size="large" aria-label="large outlined primary button group" style={{ "overflowX": "hidden" }}>
+                                            <Button>
+                                                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                                                    <Grid item style={{ display: "flex" }}>
+                                                        <LockOpenRoundedIcon />
+                                                    </Grid>
+                                                    <Grid item>
+                                                        Register
+                                    </Grid>
+                                                </Grid>
+                                            </Button>
+                                        </ButtonGroup>
+                                    </Box>
+                                </form>
+                            </Paper>
+                        </TabPanel>
+                        <TabPanel value={value} index={2}>
+                            Item Three
+      </TabPanel>
+
                     </Box>
                 </div>
             </motion.div>
-        </AnimatePresence>
+        </AnimatePresence >
     );
 }
 

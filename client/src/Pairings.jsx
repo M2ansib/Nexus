@@ -92,18 +92,18 @@ function PairingsList(props) {
                 >
 
                     <MosaicContainer>
-                        <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
-                        <Card name="Amish Venkat" initials="AV" school="VJC" subjects="H1 General Paper" remarks="Please bring questions before hand and be punctual. Thanks." cal={cal} email="av@gmail.com" />
-                        <Card name="Chien Hao" initials="CH" school="RI" subjects="H2 Economics and H1 General Paper" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
+                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
+                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
+                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
+                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
+                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
+                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
+                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
+                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
+                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
+                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
+                        <Card name="Amish Venkat" initials="AV" preferences="Chess" remarks="Not available on Wednesdays" cal={cal} email="av@gmail.com" />
+                        <Card name="Chien Hao" initials="CH" preferences="Cafe-hopping, Experimental Learning" remarks="Free only on weekends" cal={cal} email="tch@gmail.com" />
                     </MosaicContainer>
                 </motion.div>
             </div>
@@ -112,14 +112,11 @@ function PairingsList(props) {
 }
 
 export default function Groupings() {
-    const handleClick = () => {
-        setOpen(open => !open);
-    };
 
     return (
 
         <Grid xs={12} justify="flex-start" alignItems="flex-start">
-            <PairingsList handleClick={handleClick} />
+            <PairingsList/>
         </Grid>
     )
 }
