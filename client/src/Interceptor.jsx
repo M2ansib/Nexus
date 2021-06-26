@@ -32,7 +32,7 @@ export default function Interceptor (props) {
                 response.text().then(text => enqueueSnackbar(`[Interceptor] Error from ${response.url}: \n${text}`, {variant: "error"}));
             }
             else {
-                response.json().then(data => enqueueSnackbar(`[Interceptor] Response from ${response.url}: \n${JSON.stringify(data)}`, {variant: 'success'}))
+                response.clone().json().then(data => enqueueSnackbar(`[Interceptor] Response from ${response.url}: \n${JSON.stringify(data)}`, {variant: 'success'}))
             }
             return response;
         },

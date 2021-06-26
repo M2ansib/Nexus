@@ -102,11 +102,28 @@ function Base() {
         polyfill: ResizeObserver, // Use polyfill to make this feature works on more browsers
     });
     const [cal, setCal] = useState()
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const variants = {
         open: { opacity: 1, scale: [0.7, 2, 1, 1] },
         closed: { opacity: 0, scale: [2, 1, 0, 0] },
     }
+
+    useEffect(() => {
+        fetch("/api/logged_in")
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+                if (res.result === false) {
+                    setIsLoggedIn(false)
+                } else {
+                    setIsLoggedIn(true)
+                }
+            },
+                error => {
+                    console.log(error)
+                })
+    }, [])
 
     return (
         <ThemeProvider theme={theme}>
@@ -134,24 +151,32 @@ function Base() {
                             <Route exact path="/register">
                                 <Register />
                             </Route>
+                            {isLoggedIn ? (
+                                <>
+                                    <Route exact path="/match_request">
+                                        <MatchRequestForm />
+                                    </Route>
+                                    <Route exact path="/dash">
+                                        <Dashboard setCal={setCal} />
+                                    </Route>
+                                    <Route exact path="/groupings">
+                                        <Pairings cal={cal} />
+                                    </Route>
+                                    <Route exact path="/profile">
+                                        <Profile />
+                                    </Route>
+                                    <Route exact path="/chat">
+                                        <Chat />
+                                    </Route>
+                                </>
+
+                            ) : (
+                                    <Redirect to="/" />
+                                )}
                             {/* <Route exact path="/internships">
                                     <Internships />
                                 </Route> */}
-                            <Route exact path="/match_request">
-                                <MatchRequestForm />
-                            </Route>
-                            <Route exact path="/dash">
-                                <Dashboard setCal={setCal} />
-                            </Route>
-                            <Route exact path="/groupings">
-                                <Pairings cal={cal} />
-                            </Route>
-                            <Route exact path="/profile">
-                                <Profile />
-                            </Route>
-                            <Route exact path="/chat">
-                                <Chat />
-                            </Route>
+
                             {/* <Route exact path="/login" component={Login} /> */}
                         </Switch>
                     </BrowserRouter>

@@ -24,12 +24,12 @@ def ValidateCredentials(username, password):
     except:
         return False
 
-@admin_api.route('/logged_in')
+@admin_api.route('/logged_in', methods=['GET'])
 def LoggedIn():
     try:
-        return session['logged_in']
+        return jsonify(result=session['logged_in'])
     except KeyError:
-        return False
+        return jsonify(result=False)
 
 # @db_api.route('/<collection>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 # def unified_endpoint(collection):
