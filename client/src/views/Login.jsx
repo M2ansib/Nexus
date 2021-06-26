@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LandingPageComponent() {
     const classes = useStyles();
     const [currentTime, setCurrentTime] = useState(0);
+    const [username, setUsername] = useState('');
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
@@ -71,6 +72,19 @@ export default function LandingPageComponent() {
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
       };
+
+      const handleSubmit = (event) => {
+          event.preventDefault();
+          fetch("/api/login", {
+              method: "POST",
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+              body: JSON.stringify({username: username, password: values.password})
+          }).then(res => res.json()).then(data => {
+          });
+      }
 
     useEffect(() => {
         fetch('/api/time').then(res => res.json()).then(data => {
@@ -97,8 +111,8 @@ export default function LandingPageComponent() {
                 </Fab>
                 <Paper elevation={3} className="blur-behind" style={{"borderRadius":"8px", "backgroundColor": "rgba(200,200,200,0.75)", padding:"1em"}}>
                     <h1 className="drop-shadow" style={{"width":"100%", "textAlign":"center", overflowX:'hidden'}}>Welcome to Nexus!</h1>
-                    <form className={classes.root} noValidate autoComplete="off">
-                    <TextField id="outlined-basic" required label="Email" variant="outlined" width="100%" color="secondary" />
+                    <form className={classes.root} noValidate autoComplete="off" onSubmit = {handleSubmit}>
+                    <TextField id="outlined-basic" required label="Email" variant="outlined" width="100%" color="secondary" onChange={e => setUsername(e.target.value)} />
                     <br/>
                     <FormControl required className={clsx(classes.margin, classes.textField)} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
@@ -125,7 +139,7 @@ export default function LandingPageComponent() {
                         <br/>
                         <Box display="flex" justifyContent="center" alignItems="center">
                             <ButtonGroup size="large" aria-label="large outlined primary button group" style={{"overflowX":"hidden"}}>
-                                <Button>
+                                <Button type="submit">
                                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                                     <Grid item style={{display:"flex"}}>
                                         <LockOpenRoundedIcon />
