@@ -96,7 +96,8 @@ export default function LandingPageComponent() {
         email: '',
         recoveryEmail: '',
         password: '',
-        preferences: ['list', 'of', 'preferences', 'here']
+        preferences: ['list', 'of', 'preferences', 'here'],
+        selectedPreferences:[]
     });
     const [value, setValue] = React.useState(0);
 
@@ -105,6 +106,7 @@ export default function LandingPageComponent() {
     };
 
     const handleChange = (prop) => (event) => {
+        console.log(event.target.value)
         setValues({ ...values, [prop]: event.target.value });
     };
 
@@ -247,6 +249,7 @@ export default function LandingPageComponent() {
                                         required
                                         getOptionLabel={(option) => option}
                                         style={{ width: "100%", margin: 10 }}
+                                        onChange={(event, value) => setValues({ ...values, ["selectedPreferences"]: value })}
                                         renderInput={(params) => <TextField {...params} label="Preferences" variant="outlined" />}
                                     />
                                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -354,6 +357,7 @@ export default function LandingPageComponent() {
                                         freeSolo={true}
                                         required
                                         getOptionLabel={(option) => option}
+                                        onChange={(event, value) => setValues({ ...values, ["selectedPreferences"]: value })}
                                         style={{ width: "100%", margin: 10 }}
                                         renderInput={(params) => <TextField {...params} label="Preferences" variant="outlined" />}
                                     />
