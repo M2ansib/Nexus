@@ -7,6 +7,8 @@ import logging
 import json
 import Schema
 
+from functools import wraps
+
 log = logging.getLogger(__name__)
 
 admin_api = Blueprint('admin_api', __name__, url_prefix='/api')
@@ -17,6 +19,14 @@ from appserver import limiter
 import os
 
 Schema.EstablishConnection()
+
+class Restrictions:
+    LOGGED_IN = 1,
+
+
+# def RESTRICTED(func, _filter):
+#     if _filter == Restrictions.LOGGED_IN:
+#         if session['username'] not in 
 
 def ValidateCredentials(username, password):
     try:
@@ -31,10 +41,6 @@ def LoggedIn():
     except KeyError:
         return jsonify(result=False)
 
-# @db_api.route('/<collection>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
-# def unified_endpoint(collection):
-#     if request.method == "GET":
-#         return jsonify(data = eval(f"Schema.{collection.capitalize()}").objects.all())
 
 @admin_api.route('/login', methods=['POST'])
 def login():
@@ -54,13 +60,17 @@ def login():
         return jsonify({"OK": 200, "session_data": dict(session)})
     else:
         log.warning(f"Failed login attempt for user '{username}'")
-        return Response(jsonify({"UNAUTHORIZED": 401}), 401)
+        return jsonify({"UNAUTHORIZED": 401}), 401
 
 
 def validateLogin(user, pwd):
     # TODO: Use db.Users table for user validation
     SECRET_PASSWORD = generate_password_hash('123')
     return user == 'admin' and check_password_hash(SECRET_PASSWORD, pwd)
+
+# @db_api.route('/fetch_pairings')
+# def fetch_pairings():
+#     username = session['username']
 
 
 @admin_api.route('/logout', methods=['GET'])
@@ -95,4 +105,5 @@ import time
 @limiter.exempt
 def get_current_time():
     return {'time': time.time()}
+
 
