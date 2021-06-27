@@ -146,38 +146,40 @@ function Base() {
                             <Route exact path="/">
                                 {/* <TopBar/>
             <div style={{"paddingBottom":"2.5em",}}></div> */}
-                                <Login />
+                                {isLoggedIn ? <Redirect to="/dash" /> : <Login />}
                             </Route>
                             <Route exact path="/register">
                                 <Register />
                             </Route>
-                            {isLoggedIn ? (
-                                <>
-                                    <Route exact path="/match_request">
-                                        <MatchRequestForm />
-                                    </Route>
-                                    <Route exact path="/dash">
-                                        <Dashboard setCal={setCal} />
-                                    </Route>
-                                    <Route exact path="/groupings">
-                                        <Pairings cal={cal} />
-                                    </Route>
-                                    <Route exact path="/profile">
-                                        <Profile />
-                                    </Route>
-                                    <Route exact path="/chat">
-                                        <Chat />
-                                    </Route>
-                                </>
-
-                            ) : (
-                                    <Redirect to="/" />
-                                )}
-                            {/* <Route exact path="/internships">
+                            <Route path="/">
+                                {isLoggedIn ? (
+                                    <>
+                                        <Route exact path="/match_request">
+                                            <MatchRequestForm />
+                                        </Route>
+                                        <Route exact path="/dash">
+                                            <Dashboard setCal={setCal} />
+                                        </Route>
+                                        <Route exact path="/groupings">
+                                            <Pairings cal={cal} />
+                                        </Route>
+                                        <Route exact path="/profile">
+                                            <Profile />
+                                        </Route>
+                                        <Route exact path="/chat">
+                                            <Chat />
+                                        </Route>
+                                    </>
+                                ) : (
+                                        <Redirect to="/" />
+                                    )
+                                }
+                                </Route>
+                                {/* <Route exact path="/internships">
                                     <Internships />
                                 </Route> */}
 
-                            {/* <Route exact path="/login" component={Login} /> */}
+                                {/* <Route exact path="/login" component={Login} /> */}
                         </Switch>
                     </BrowserRouter>
                 </AnimatePresence>
