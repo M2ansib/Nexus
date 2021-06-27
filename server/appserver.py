@@ -44,7 +44,7 @@ CORS(app)
 limiter = Limiter(
     app,
     key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"]
+    default_limits=["20000000 per day", "50000 per hour"]
 )
 
 # @app.errorhandler(Exception)
@@ -66,9 +66,9 @@ def handle_error(e):
 
 # login_manager = flask_login.LoginManager()
 # login_manager.init_app(app)
-
+DEBUG_MODE = False
 app.config.update(
-    SECRET_KEY=os.urandom(16),
+    SECRET_KEY=os.urandom(16) if not DEBUG_MODE else 'debug',
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax',
 )

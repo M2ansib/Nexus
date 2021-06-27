@@ -90,6 +90,7 @@ function a11yProps(index) {
 export default function LandingPageComponent() {
     const classes = useStyles();
     const [currentTime, setCurrentTime] = useState(0);
+    
     const [values, setValues] = React.useState({
         firstName: '',
         lastName: '',
@@ -99,6 +100,7 @@ export default function LandingPageComponent() {
         preferences: ['list', 'of', 'preferences', 'here'],
         selectedPreferences: []
     });
+    
     const [value, setValue] = React.useState(0);
 
     const handleTabsChange = (event, newValue) => {
@@ -119,6 +121,9 @@ export default function LandingPageComponent() {
     };
 
     useEffect(() => {
+        fetch("/api/fetch/preferences_all").then(res=>res.json()).then(data=>
+            setValues(Object.assign(values, {preferences: data.data}))
+        )
         OverlayScrollbars(document.body, {
             nativeScrollbarsOverlaid: {
                 initialize: true
@@ -138,6 +143,10 @@ export default function LandingPageComponent() {
         e.preventDefault()
         console.log(values)
         console.log(value === 0 ? "Local Student" : "International Student")
+        fetch("/api/register_user", {
+            method: 'POST',
+            body: JSON.stringify(Object.assign({role: value === 0 ? "Local" : "International"}, values))
+        }).then(res => res.json()).then(data => data.message)
     }
 
     return (

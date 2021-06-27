@@ -64,8 +64,10 @@ const useStyles = makeStyles((theme) => ({
 export default function DashboardCards({ setCal }) {
     const calendarEl = useRef()
     const classes = useStyles();
+    const [firstName, setFirstName] = useState("");
 
     useEffect(() => {
+        fetch("/api/fetch_session_data/first_name").then(res=>res.json()).then(data=>setFirstName(data.value))
         let cal = new Calendar(calendarEl.current, {
             plugins: [dayGridPlugin, timeGridPlugin, iCalendarPlugin],
             initialView: 'dayGridMonth',
@@ -135,7 +137,7 @@ export default function DashboardCards({ setCal }) {
                     <Grid item xs={12} justify="center" alignItems="flex-start" >
                         {/* <main className={classes.contentShift}> */}
                         <Box>
-                            <h1 style={{ textAlign: "center" }}>Howdy Ria, welcome to Nexus!</h1>
+                            <h1 style={{ textAlign: "center" }}>{`Howdy ${firstName}, welcome to Nexus!`}</h1>
                             <br />
                             <h2 style={{ textAlign: "center" }}>Scheduled Events:</h2>
                             <div ref={calendarEl} style={{ marginLeft: 20, marginRight: 20 }}></div>

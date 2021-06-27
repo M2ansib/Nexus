@@ -57,7 +57,7 @@ export default function LandingPageComponent() {
     const [currentTime, setCurrentTime] = useState(0);
     const [values, setValues] = React.useState({
         selectedPreferences: [],
-        preferences: ['list', 'of', 'preferences', 'here'],
+        preferences: ['list', 'of', 'test', 'here'],
         remarks: ''
     });
 
@@ -74,6 +74,13 @@ export default function LandingPageComponent() {
     };
 
     useEffect(() => {
+        fetch("/api/fetch/preferences").then(res=>res.json()).then(data=>
+            setValues({
+                selectedPreferences: [],
+                preferences: data.data,
+                remarks: ''
+            })
+        )
         fetch('/api/time').then(res => res.json()).then(data => {
             setCurrentTime(data.time);
         });
@@ -82,6 +89,10 @@ export default function LandingPageComponent() {
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(values)
+        fetch("/api/create/match_request", {
+            method: 'POST',
+            body: JSON.stringify(values)
+        }).then(res => res.json()).then(data => console.log(data))
     }
 
     return (

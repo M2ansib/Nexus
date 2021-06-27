@@ -119,12 +119,18 @@ function PairingsList(props) {
         exit: { transition: { staggerChildren: 0.02 } }
     };
 
-    // useEffect(() => {
-    //     // enqueueSnackbar("hello!")
-    //     fetch('/api/time').then(res => res.json()).then(data => {
-    //         setCurrentTime(data.time);
-    //     });
-    // }, []);
+    useEffect(() => {
+        fetch('/api/fetch/match_requests').then(res => res.json()).then(data => {
+            setPairings(data.requests.map(x=>Object.create({
+                name: x.name,
+                initials: x.initials,
+                preferences: x.preferences,
+                remarks: x.remarks,
+                cal: cal,
+                email: x.email
+            })))
+        });
+    }, []);
     return (
         <motion.div
             initial={{ opacity: 0 }}

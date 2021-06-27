@@ -131,6 +131,7 @@ export default function PairingCard(props) {
         <>
             <motion.div variants={postPreviewVariants}>
                 <Card className={classes.root} elevation={5}>
+                    { !['Unassigned', 'Pending'].includes(name) ? (
                     <CardHeader
                         avatar={
                             <Avatar aria-label="recipe" className={classes.avatar}>
@@ -139,7 +140,14 @@ export default function PairingCard(props) {
                         }
                         title={name}
                     />
-                    <CardContent>
+                    ):(
+                        <CardHeader
+                        
+                        title={name}
+                    />
+                    
+                    )}
+                    <CardContent style={{overflowWrap: "anywhere"}}>
                         <Typography variant="body2" color="textSecondary" component="p">
                             Preferences: {preferences}
                         </Typography>
@@ -147,6 +155,7 @@ export default function PairingCard(props) {
                             Remarks: {remarks}
                         </Typography>
                     </CardContent>
+                    { !['Unassigned', 'Pending'].includes(name) ? (
                     <CardActions disableSpacing>
                         <IconButton
                             className={clsx(classes.expand, {
@@ -159,6 +168,7 @@ export default function PairingCard(props) {
                             <ExpandMoreIcon />
                         </IconButton>
                     </CardActions>
+                    ) : (<></>) }
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent>
                             <ButtonGroup fullWidth='true' orientation="vertical" display="flex" justifyContent="center" alignItems="center" size="large" color="primary" aria-label="large outlined primary button group">

@@ -146,8 +146,10 @@ function Base() {
                     horizontal: 'left',
                 }}
                 TransitionComponent={Collapse}
-                maxSnack={6}
+                maxSnack={3}
                 preventDuplicate
+                autoHideDuration={3000}
+                
             >
                 <Interceptor />
                 <AnimatePresence exitBeforeEnter initial={false}>
@@ -160,7 +162,7 @@ function Base() {
                                 {!isLoggedIn ? <Login /> : <Redirect to='/dash' />}
                             </Route>
                             <Route exact path="/register">
-                                <Register />
+                                {!isLoggedIn ? <Register /> : <Redirect to='/dash' />}
                             </Route>
                             {/* <span>`Test: ${fetch("/api/testing", {method:'POST', body:JSON.stringify({loggedIn: isLoggedIn})})}`</span> */}
                             <ConditionalRedirect condition={isLoggedIn} to="/">

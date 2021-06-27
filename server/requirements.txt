@@ -9,3 +9,4 @@ flask-cors
 apscheduler
 python-dotenv
 dnspython
+pubnub>=5.1.3

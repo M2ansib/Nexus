@@ -35,6 +35,13 @@ pprinter = pprint.PrettyPrinter(indent=4)
 
 from dotenv import load_dotenv; load_dotenv()  # take environment variables from '.env'.
 
+# pnconfig = PNConfiguration()
+
+# pnconfig.subscribe_key = 'mySubscribeKey'
+# pnconfig.publish_key = 'myPublishKey'
+# pnconfig.uuid = 'myUniqueUUID'
+# pubnub = PubNub(pnconfig)
+
 LOGGING_FORMAT = "[%(asctime)s]|%(levelname)s|[%(module)s]:%(funcName)s()|%(message)s"
 logging.basicConfig(
     format=LOGGING_FORMAT,
@@ -168,6 +175,14 @@ def EstablishConnection():
     username = os.environ["MONGO_USERNAME"]
     password = os.environ["MONGO_PASSWORD"]
     connect(f"mongodb+srv://{username}:{password}@ascent-cluster.xrvua.mongodb.net/myFirstDatabase")
+
+def EstablishPymongoConnection():
+    import pymongo
+    username = os.environ["MONGO_USERNAME"]
+    password = os.environ["MONGO_PASSWORD"]
+    client =   pymongo.MongoClient(f"mongodb+srv://{username}:{password}@ascent-cluster.xrvua.mongodb.net")
+    db = client["myFirstDatabase"]
+    return db
 
 DEFAULT_CONNECTION_ALIAS = 'leap-api'
 
@@ -304,8 +319,8 @@ class Subject(MongoModel):
     object_id = fields.ObjectIdField(default=lambda: ObjectId())
     '''Globally unique identifier for the object. Not collision-prone unless, of course, you're churning out 16 million documents per millisecond.'''
 
-    class Meta:
-        indexes = [pymongo.IndexModel(keys=[('level', pymongo.ASCENDING), ('name', pymongo.ASCENDING)], unique=True)]
+    # class Meta:
+    #     indexes = [pymongo.IndexModel(keys=[('level', pymongo.ASCENDING), ('name', pymongo.ASCENDING)], unique=True)]
 
 class Mentor(MongoModel):
 
@@ -597,12 +612,12 @@ class RequestManager(Manager):
             if request.pending:
                 if request.grouping != None:
                     if not request.grouping.is_functional():
-                        request.notify(
-                            f"(Re: Match Request for {request.mentee.level} {request.subject}) All of our mentors are currently busy."
+                        request.notify(f"Re: Match Request for {request.mentee.level} {request.subject})",
+                            f"All of our mentors are currently busy."
                         )
             else:
-                request.notify(
-                    f" (Re: Match Request for {request.mentee.level} {request.subject}) Thank you for using our system!"
+                request.notify(f"Re: Match Request for {request.mentee.level} {request.subject}",
+                    f"Thank you for using our system!"
                 )
                 request.archive()
 
@@ -753,6 +768,7 @@ if __name__ == "__main__":
     # external modules by adding them here.
     # This allows 'pydoc3' to be run without causing the 'DoesNotExist' error,
     # due to differing '_cls' values within each PyMODM document.
+    EstablishConnection()
     Generator.populate()
     from IPython import embed; embed()
 
@@ -813,4 +829,4 @@ def QuotaResetCoroutine():
         mentee.reset_vacancy_counter()
 
 log.info(f"\n⚠️ Activating scheduled coroutines: {[f'{j.name} ({j.id})' for j in scheduler.get_jobs()]}\n")
-scheduler.start()
+# scheduler.start()

@@ -25,11 +25,9 @@ def populate():
     )
 
     Subjects = Utilities.SortedSetList(
-        "H2 Physics",
-        "H2 Chemistry",
-        "H2 Mathematics",
-        "H2 Economics",
-        "H2 Computing"
+        "Chess",
+        "Café-hopping",
+        "Experiential Learning"
     )
 
     Levels = Utilities.SortedSetList(
