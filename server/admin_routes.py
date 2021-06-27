@@ -34,6 +34,7 @@ def ValidateCredentials(username, password):
     except:
         return False
 
+@limiter.exempt
 @admin_api.route('/logged_in', methods=['GET'])
 def LoggedIn():
     try:

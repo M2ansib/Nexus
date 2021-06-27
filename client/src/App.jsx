@@ -9,7 +9,7 @@ import './index.css';
 import cyan from '@material-ui/core/colors/cyan';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Calendar } from '@fullcalendar/core';
+import { Calendar, isPropsEqual } from '@fullcalendar/core';
 import Box from '@material-ui/core/Box';
 
 import { SnackbarProvider } from 'notistack';
@@ -95,6 +95,15 @@ const theme = createMuiTheme({
 //     suppressLeaveEvents: true
 // });
 
+function ConditionalRedirect(props) {
+    return (
+        props.condition ?
+
+        props.children:
+        <Redirect to={props.to}/>
+    )
+}
+
 function Base() {
 
     const { observe, width, height } = useDimensions({
@@ -109,21 +118,24 @@ function Base() {
         closed: { opacity: 0, scale: [2, 1, 0, 0] },
     }
 
-    useEffect(() => {
+    const fetch_isLoggedIn = () => {
         fetch("/api/logged_in")
             .then(res => res.json())
             .then(res => {
                 console.log(res)
-                if (res.result === false) {
-                    setIsLoggedIn(false)
-                } else {
-                    setIsLoggedIn(true)
-                }
+                setIsLoggedIn(res.result)
             },
                 error => {
                     console.log(error)
                 })
-    }, [])
+        return isLoggedIn
+    }
+
+    fetch_isLoggedIn();
+
+    // useEffect(() => {
+    //     fetch_isLoggedIn();
+    // }, [])
 
     return (
         <ThemeProvider theme={theme}>
@@ -134,7 +146,8 @@ function Base() {
                     horizontal: 'left',
                 }}
                 TransitionComponent={Collapse}
-                maxSnack={5}
+                maxSnack={6}
+                preventDuplicate
             >
                 <Interceptor />
                 <AnimatePresence exitBeforeEnter initial={false}>
@@ -144,38 +157,30 @@ function Base() {
                         <Toolbar excludes={['/', '/chat', '/register', '/mentor_register', '/mentee_register', '/match_request']} />
                         <Switch location={location} key={location.pathname}>
                             <Route exact path="/">
-                                {/* <TopBar/>
-            <div style={{"paddingBottom":"2.5em",}}></div> */}
-                                {isLoggedIn ? <Redirect to="/dash" /> : <Login />}
+                                {!isLoggedIn ? <Login /> : <Redirect to='/dash' />}
                             </Route>
                             <Route exact path="/register">
                                 <Register />
                             </Route>
-                            <Route path="/">
-                                {isLoggedIn ? (
-                                    <>
-                                        <Route exact path="/match_request">
-                                            <MatchRequestForm />
-                                        </Route>
-                                        <Route exact path="/dash">
-                                            <Dashboard setCal={setCal} />
-                                        </Route>
-                                        <Route exact path="/groupings">
-                                            <Pairings cal={cal} />
-                                        </Route>
-                                        <Route exact path="/profile">
-                                            <Profile />
-                                        </Route>
-                                        <Route exact path="/chat">
-                                            <Chat />
-                                        </Route>
-                                    </>
-                                ) : (
-                                        <Redirect to="/" />
-                                    )
-                                }
+                            {/* <span>`Test: ${fetch("/api/testing", {method:'POST', body:JSON.stringify({loggedIn: isLoggedIn})})}`</span> */}
+                            <ConditionalRedirect condition={isLoggedIn} to="/">
+                                <Route exact path="/match_request">
+                                    <MatchRequestForm />
                                 </Route>
-                                {/* <Route exact path="/internships">
+                                <Route exact path="/dash">
+                                    <Dashboard setCal={setCal} />
+                                </Route>
+                                <Route exact path="/groupings">
+                                    <Pairings cal={cal} />
+                                </Route>
+                                <Route exact path="/profile">
+                                    <Profile />
+                                </Route>
+                                <Route exact path="/chat">
+                                    <Chat />
+                                </Route>
+                            </ConditionalRedirect>
+                            {/* <Route exact path="/internships">
                                     <Internships />
                                 </Route> */}
 
