@@ -92,7 +92,7 @@ export default function LandingPageComponent() {
         fetch("/api/create/match_request", {
             method: 'POST',
             body: JSON.stringify(values)
-        }).then(res => res.json()).then(data => console.log(data))
+        }).then(res => res.json()).then(data => window.location.href="/dash")
     }
 
     return (

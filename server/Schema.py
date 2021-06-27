@@ -829,4 +829,4 @@ def QuotaResetCoroutine():
         mentee.reset_vacancy_counter()
 
 log.info(f"\n⚠️ Activating scheduled coroutines: {[f'{j.name} ({j.id})' for j in scheduler.get_jobs()]}\n")
-# scheduler.start()
+scheduler.start()
