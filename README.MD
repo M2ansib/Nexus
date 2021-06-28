@@ -36,7 +36,7 @@
 1. Start the server
 
     ```bash
-    python -u appservery.py
+    python -u appserver.py
     ```
 ### Client
 
